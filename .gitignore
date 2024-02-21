@@ -396,3 +396,6 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Prevent web.config from being deployed for privacy reasons
+web.config
