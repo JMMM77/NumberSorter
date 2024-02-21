@@ -14,7 +14,7 @@ namespace NumberSorter.Data.Repositories
         /// </summary>
         /// <param name="sortedNumbers">The SortedNumbers object to be added to the database.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        public async Task AddAsync(SortedNumbers sortedNumbers)
+        public async Task CreateAsync(SortedNumbers sortedNumbers)
         {
             await _dbSet.AddAsync(sortedNumbers);
         }

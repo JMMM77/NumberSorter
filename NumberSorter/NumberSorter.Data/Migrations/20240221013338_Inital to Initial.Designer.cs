@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NumberSorter.Data;
 
@@ -11,9 +12,11 @@ using NumberSorter.Data;
 namespace NumberSorter.Data.Migrations
 {
     [DbContext(typeof(NumberSorterDBContext))]
-    partial class NumberSorterDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240221013338_Inital to Initial")]
+    partial class InitaltoInitial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,7 +61,7 @@ namespace NumberSorter.Data.Migrations
                         new
                         {
                             Id = 1,
-                            InitialValues = "12,14,23,24",
+                            InitialValues = "[12,14,23,24]",
                             IsAscending = true,
                             SortTime = new TimeSpan(0, 0, 0, 5, 0),
                             SortedValues = "[14,24,12,23]"

@@ -18,16 +18,19 @@ namespace NumberSorter.Data.Configurations
                     .HasColumnName("sorted_values")
                     .IsRequired();
 
-            builder.Property(e => e.InitalValues)
+            builder.Property(e => e.InitialValues)
                     .HasColumnName("initial_values")
                     .IsRequired();
 
             builder.Property(e => e.SortTime)
                     .HasColumnName("sort_time");
 
+            builder.Property(e => e.IsAscending)
+                    .HasColumnName("is_ascending");
+
             builder.ToTable("sorted_numbers");
 
-            builder.HasData(new SortedNumbers(1, [12, 23], [12, 23], new TimeSpan(0, 0, 5)));
+            builder.HasData(new SortedNumbers(1, [14, 24, 12, 23], "12,14,23,24", new TimeSpan(0, 0, 5), true));
         }
     }
 }

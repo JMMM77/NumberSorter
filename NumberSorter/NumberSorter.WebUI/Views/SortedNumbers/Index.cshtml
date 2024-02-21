@@ -10,16 +10,20 @@
 <a asp-action="Create" class="btn btn-sm btn-primary">Add New List</a>
 <table class="table table-striped">
     <tr>
-        <th>Name</th>
+        <th>Initial Values</th>
+        <th>Sorted Values</th>
+        <th>Sort Time</th>
+        <th>Ordered By</th>
         <th>Actions</th>
     </tr>
     <tbody>
         @foreach (SortedNumbersViewModel sortedNumber in Model)
         {
             <tr>
-                <td>@sortedNumber.InitalValues</td>
-                <td>@sortedNumber.SortedValues</td>
+                <td>@sortedNumber.InitialValues</td>
+                <td>@string.Join(", ", @sortedNumber.SortedValues)</td>
                 <td>@sortedNumber.SortTime</td>
+                <td>@(sortedNumber.IsAscending ? "Ascending" : "Descending")</td>
                 <td>
                     <a asp-action="Details" asp-route-id="@sortedNumber.Id" class="btn btn-sm btn-primary">Details</a>
                     <a asp-action="Edit" asp-route-id="@sortedNumber.Id" class="btn btn-sm btn-primary">Edit</a>
