@@ -20,6 +20,7 @@ namespace NumberSorter.Common.Models
         /// </summary>
         [Required(ErrorMessage = "Please enter numbers separated by commas.")]
         [RegularExpression(@"^(\d+(\s*,\s*\d+)*)?$", ErrorMessage = "Invalid format. Please enter numbers separated by commas.")]
+        [StringLength(4000, ErrorMessage = "The field must not exceed 4000 characters.")]
         public string InitialValues { get; set; } = "";
 
         /// <summary>
@@ -32,5 +33,10 @@ namespace NumberSorter.Common.Models
         /// </summary>
         [Required]
         public bool IsAscending { get; set; }
+
+        /// <summary>
+        /// Stringifies the ordered list of values for display purposes
+        /// </summary>
+        public string SortedValuesString { get; set; } = "";
     }
 }
