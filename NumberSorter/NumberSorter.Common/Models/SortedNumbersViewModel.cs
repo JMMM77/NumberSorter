@@ -20,7 +20,7 @@ namespace NumberSorter.Common.Models
         /// </summary>
         [Required(ErrorMessage = "Please enter numbers separated by commas.")]
         [RegularExpression(@"^(\d+(\s*,\s*\d+)*)?$", ErrorMessage = "Invalid format. Please enter numbers separated by commas.")]
-        [StringLength(4000, ErrorMessage = "The field must not exceed 4000 characters.")]
+        [StringLength(3998, ErrorMessage = "The field must not exceed 3998 characters.")]
         public string InitialValues { get; set; } = "";
 
         /// <summary>
