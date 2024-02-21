@@ -7,14 +7,14 @@
 }
 
 <h1>@ViewData["Title"]</h1>
-
+<hr />
 <div class="row mb-2">
     <div class="col-md-6 mb-2">
-        <a asp-action="Create" class="btn btn-sm btn-primary">Add New List</a>
+        <a asp-action="Create" class="btn btn-primary">Add New List</a>
     </div>
     <div class="col-md-6 text-end mb-2">
         <form asp-action="ExportToJson" asp-controller="SortedNumbers" method="post">
-            <button type="submit" value="ExportToJson" class="btn btn-sm btn-primary">Export to JSON</button>
+            <button type="submit" value="ExportToJson" class="btn btn-primary">Export to JSON</button>
         </form>
     </div>
     

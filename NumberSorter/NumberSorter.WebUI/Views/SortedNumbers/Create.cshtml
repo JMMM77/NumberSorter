@@ -7,7 +7,7 @@
 }
 
 <h1>@ViewData["Title"]</h1>
-
+<hr />
 <form asp-controller="SortedNumbers" asp-action="Create" method="post" class="row">
     <div class="col-md-6">
         <label asp-for="InitialValues" class="control-label">Enter numbers (comma-separated):</label>
@@ -22,7 +22,8 @@
         </select>
     </div>
     <div class="col-md-12 my-2">
-        <button type="submit" class="btn btn-sm btn-primary col-sm-2">Sort</button>
+        <button type="submit" class="btn btn-primary">Sort</button>
+        <a asp-action="Index" asp-controller="SortedNumbers" class="btn btn-secondary">Back to List</a>
     </div>
     
 </form>

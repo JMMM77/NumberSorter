@@ -7,6 +7,7 @@
 }
 
 <h1>Details for sorted number list</h1>
+<hr />
 
 <dl class="row">
     <dt class="col-sm-2">ID</dt>
@@ -26,6 +27,6 @@
 </dl>
 
 <div>
-    @Html.ActionLink("Delete", "Delete", new { Model.Id }) |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+    <a asp-action="Index" asp-controller="SortedNumbers" class="btn btn-secondary">Back to List</a>
 </div>

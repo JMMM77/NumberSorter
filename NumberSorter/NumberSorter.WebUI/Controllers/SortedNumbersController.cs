@@ -43,6 +43,14 @@ namespace NumberSorter.WebUI.Controllers
             return File(Encoding.UTF8.GetBytes(json), "application/json", "sorted_numbers.json");
         }
 
+        [HttpGet]
+        public async Task<IActionResult> DetailsAsync(int id)
+        {
+            var model = await _sortedNumbersService.GetById(id);
+
+            return View(model);
+        }
+
         /// <summary>
         /// Action method to display the form for creating a new SortedNumbersViewModel.
         /// </summary>
