@@ -8,6 +8,12 @@ namespace NumberSorter.Data.Configuration
 {
     public static class ServiceCollectionExtensions
     {
+        /// <summary>
+        /// Extends the IServiceCollection with services required for number sorting data operations.
+        /// </summary>
+        /// <param name="services">The collection of services to extend.</param>
+        /// <param name="configuration">The configuration containing the connection string for the database.</param>
+        /// <returns>The modified IServiceCollection.</returns>
         public static IServiceCollection AddNumberSorterData(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<NumberSorterDBContext>(options =>

@@ -2,6 +2,10 @@
 
 namespace NumberSorter.Common.Models
 {
+    /// <summary>
+    /// View model which is used to be displayed in the SortedNumbers view.
+    /// Can be used to prevent or change any properties 
+    /// </summary>
     public class SortedNumbersViewModel
     {
         public int Id { get; set; }

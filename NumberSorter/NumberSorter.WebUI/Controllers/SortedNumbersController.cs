@@ -27,7 +27,6 @@ namespace NumberSorter.WebUI.Controllers
         /// Action method to export all SortedNumbers data to a JSON file asynchronously.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation and returns an IActionResult.</returns>
-
         [HttpPost]
         public async Task<IActionResult> ExportToJsonAsync()
         {

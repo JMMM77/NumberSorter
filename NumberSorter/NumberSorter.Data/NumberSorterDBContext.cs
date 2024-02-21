@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using NumberSorter.Data.Configurations;
 using NumberSorter.Data.Models;
+using System;
 
 namespace NumberSorter.Data
 {
@@ -9,6 +10,10 @@ namespace NumberSorter.Data
     {
         public DbSet<SortedNumbers> SortedNumbers { get; set; }
 
+        /// <summary>
+        /// Configures the SortedNumbers model using the specified modelBuilder.
+        /// </summary>
+        /// <param name="modelBuilder">The builder being used to construct the model for the DbContext.</param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new SortedNumbersConfiguration());

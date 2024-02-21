@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using NumberSorter.Data.Interfaces;
 using NumberSorter.Data.Models;
 
@@ -44,7 +43,6 @@ namespace NumberSorter.Data.Repositories
         /// Updates a record representing sorted numbers in the database.
         /// </summary>
         /// <param name="sortedNumbers">The SortedNumbers object to be updated.</param>
-
         public void Update(SortedNumbers sortedNumbers)
         {
             _dbSet.Attach(sortedNumbers);

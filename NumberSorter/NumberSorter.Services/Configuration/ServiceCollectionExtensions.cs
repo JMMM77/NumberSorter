@@ -6,6 +6,11 @@ namespace NumberSorter.Services.Configuration
 {
     public static class ServiceCollectionExtensions
     {
+        /// <summary>
+        /// Extends the IServiceCollection with services required for number sorting operations.
+        /// </summary>
+        /// <param name="services">The collection of services to extend.</param>
+        /// <returns>The modified IServiceCollection.</returns>
         public static IServiceCollection AddNumberSorterServices(this IServiceCollection services)
         {
             services.AddAutoMapper(typeof(SortedNumbersProfile));

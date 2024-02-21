@@ -4,8 +4,15 @@ using NumberSorter.Data.Models;
 
 namespace NumberSorter.Data.Configurations
 {
+    /// <summary>
+    /// Configures the entity mapping for the SortedNumbers entity.
+    /// </summary>
     public class SortedNumbersConfiguration : IEntityTypeConfiguration<SortedNumbers>
     {
+        /// <summary>
+        /// Configures the entity mapping for SortedNumbers.
+        /// </summary>
+        /// <param name="builder">The builder used to configure the entity.</param>
         public void Configure(EntityTypeBuilder<SortedNumbers> builder)
         {
             builder.HasKey(e => e.Id)
