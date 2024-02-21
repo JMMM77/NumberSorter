@@ -36,8 +36,6 @@ namespace NumberSorter.Data.Configurations
                     .HasColumnName("is_ascending");
 
             builder.ToTable("sorted_numbers");
-
-            builder.HasData(new SortedNumbers(1, [14, 24, 12, 23], "12,14,23,24", new TimeSpan(0, 0, 5), true));
         }
     }
 }
