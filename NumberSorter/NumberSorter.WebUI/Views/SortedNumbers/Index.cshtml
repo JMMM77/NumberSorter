@@ -8,12 +8,18 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<div class="row">
-    <a asp-action="Create" class="btn btn-sm btn-primary">Add New List</a>
+<div class="row mb-2">
+    <div class="col-md-6 mb-2">
+        <a asp-action="Create" class="btn btn-sm btn-primary">Add New List</a>
+    </div>
+    <div class="col-md-6 text-end mb-2">
+        <form asp-action="ExportToJson" asp-controller="SortedNumbers" method="post">
+            <button type="submit" value="ExportToJson" class="btn btn-sm btn-primary">Export to JSON</button>
+        </form>
+    </div>
+    
 
-    <form asp-action="ExportToJson" asp-controller="SortedNumbers" method="post">
-        <button type="submit" value="ExportToJson" class="btn btn-sm btn-primary">Export to JSON</button>
-    </form>
+    
 </div>
 
 <table class="table table-striped">
@@ -29,7 +35,7 @@
         {
             <tr>
                 <td>@sortedNumber.InitialValues</td>
-                <td>@string.Join(",", @sortedNumber.SortedValues)</td>
+                <td>@sortedNumber.SortedValuesString</td>
                 <td>@sortedNumber.SortTime</td>
                 <td>@(sortedNumber.IsAscending ? "Ascending" : "Descending")</td>
                 <td>

@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 using Newtonsoft.Json;
 using NumberSorter.Common.Models;
+using NumberSorter.Data.Models;
 using NumberSorter.Services.Services;
 using System.Text;
 
@@ -19,6 +20,12 @@ namespace NumberSorter.WebUI.Controllers
         public async Task<IActionResult> IndexAsync()
         {
             List<SortedNumbersViewModel> model = await _sortedNumbersService.GetAllAsync();
+
+            model.ForEach(x => {
+                x.InitialValues = x.InitialValues.Length > 20 ? x.InitialValues.Remove(20) + "..." : x.InitialValues;
+                x.SortedValuesString = string.Join(",", x.SortedValues);
+                x.SortedValuesString = x.SortedValuesString.Length > 20 ? x.SortedValuesString.Remove(20) + "..." : x.SortedValuesString;
+            });
 
             return View(model);
         }
@@ -65,6 +72,7 @@ namespace NumberSorter.WebUI.Controllers
             sortedNumbers = _sortedNumbersService.CalculateSortedList(sortedNumbers);
 
             await _sortedNumbersService.CreateAsync(sortedNumbers);
+            
 
             return View(nameof(Details), sortedNumbers);
         }

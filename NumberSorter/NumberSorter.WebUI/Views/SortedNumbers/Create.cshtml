@@ -8,18 +8,21 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<form asp-controller="SortedNumbers" asp-action="Create" method="post">
-    <div>
-        <label asp-for="InitialValues">Enter numbers (comma-separated):</label>
-        <input asp-for="InitialValues" />
+<form asp-controller="SortedNumbers" asp-action="Create" method="post" class="row">
+    <div class="col-md-6">
+        <label asp-for="InitialValues" class="control-label">Enter numbers (comma-separated):</label>
+        <input asp-for="InitialValues" class="form-control" />
         <span asp-validation-for="InitialValues" class="text-danger"></span>
     </div>
-    <div>
-        <label asp-for="IsAscending">Select order:</label>
-        <select asp-for="IsAscending">
+    <div class="col-md-6">
+        <label asp-for="IsAscending" class="control-label">Select order:</label>
+        <select asp-for="IsAscending" class="form-control">
             <option value="True">Ascending</option>
             <option value="False">Descending</option>
         </select>
     </div>
-    <button type="submit">Sort</button>
+    <div class="col-md-12 my-2">
+        <button type="submit" class="btn btn-sm btn-primary col-sm-2">Sort</button>
+    </div>
+    
 </form>
