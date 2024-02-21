@@ -7,7 +7,15 @@
 }
 
 <h1>@ViewData["Title"]</h1>
-<a asp-action="Create" class="btn btn-sm btn-primary">Add New List</a>
+
+<div class="row">
+    <a asp-action="Create" class="btn btn-sm btn-primary">Add New List</a>
+
+    <form asp-action="ExportToJson" asp-controller="SortedNumbers" method="post">
+        <button type="submit" value="ExportToJson" class="btn btn-sm btn-primary">Export to JSON</button>
+    </form>
+</div>
+
 <table class="table table-striped">
     <tr>
         <th>Initial Values</th>
