@@ -1,11 +1,11 @@
 ﻿namespace NumberSorter.Data.Models
 {
-    public class SortedNumbers
+    public class SortedNumbers(int id, IEnumerable<int> sortedValues, IEnumerable<int> initalValues, TimeSpan sortTime)
     {
-        public int ID { get; set; }
-        public IEnumerable<int> SortedValues { get; set; }
-        public IEnumerable<int> InitalValues { get; set; }
+        public int Id { get; set; } = id;
+        public IEnumerable<int> SortedValues { get; set; } = sortedValues;
+        public IEnumerable<int> InitalValues { get; set; } = initalValues;
 
-        public TimeOnly SortTime { get; set; }
+        public TimeSpan SortTime { get; set; } = sortTime;
     }
 }

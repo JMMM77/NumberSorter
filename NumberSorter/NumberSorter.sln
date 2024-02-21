@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NumberSorter.Services", "Nu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NumberSorter.Data", "NumberSorter.Data\NumberSorter.Data.csproj", "{5966AFBA-D9A4-4221-AE48-2EB281A61EBA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NumberSorter.Common", "NumberSorter.Common\NumberSorter.Common.csproj", "{ECE21C46-48D4-40BE-B79D-3616A9C0B64E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{5966AFBA-D9A4-4221-AE48-2EB281A61EBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5966AFBA-D9A4-4221-AE48-2EB281A61EBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5966AFBA-D9A4-4221-AE48-2EB281A61EBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECE21C46-48D4-40BE-B79D-3616A9C0B64E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECE21C46-48D4-40BE-B79D-3616A9C0B64E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECE21C46-48D4-40BE-B79D-3616A9C0B64E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECE21C46-48D4-40BE-B79D-3616A9C0B64E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

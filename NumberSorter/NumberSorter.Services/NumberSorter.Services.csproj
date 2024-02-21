@@ -6,4 +6,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NumberSorter.Common\NumberSorter.Common.csproj" />
+    <ProjectReference Include="..\NumberSorter.Data\NumberSorter.Data.csproj" />
+  </ItemGroup>
 </Project>

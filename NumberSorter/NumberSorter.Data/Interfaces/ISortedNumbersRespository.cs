@@ -4,10 +4,10 @@ namespace NumberSorter.Data.Interfaces
 {
     public interface ISortedNumbersRespository
     {
-        Task AddAsync(SortedNumbers sortedNumbers);
-        Task<List<SortedNumbers>> GetAllAsync();
-        void Update(SortedNumbers sortedNumbers);
-        void Delete(SortedNumbers sortedNumbers);
-        Task<bool> SaveChangesAsync();
+        public Task AddAsync(SortedNumbers sortedNumbers);
+        public Task<List<SortedNumbers>> GetAllAsync();
+        public void Update(SortedNumbers sortedNumbers);
+        public void Delete(SortedNumbers sortedNumbers);
+        public Task<bool> SaveChangesAsync();
     }
 }

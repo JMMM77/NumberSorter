@@ -4,16 +4,10 @@ using NumberSorter.Data.Models;
 
 namespace NumberSorter.Data.Repositories
 {
-    public class SortedNumbersRespository : ISortedNumbersRespository
+    internal class SortedNumbersRespository(NumberSorterDBContext numberSorterDBContext) : ISortedNumbersRespository
     {
-        private readonly DbContext _numberSorterDBContext;
-        private readonly DbSet<SortedNumbers> _dbSet;
-
-        protected SortedNumbersRespository(DbContext numberSorterDBContext)
-        {
-            _numberSorterDBContext = numberSorterDBContext;
-            _dbSet = numberSorterDBContext.Set<SortedNumbers>();
-        }
+        private readonly NumberSorterDBContext _numberSorterDBContext = numberSorterDBContext;
+        private readonly DbSet<SortedNumbers> _dbSet = numberSorterDBContext.Set<SortedNumbers>();
 
         /// <summary>
         /// Asynchronously adds a new record representing sorted numbers to the database.

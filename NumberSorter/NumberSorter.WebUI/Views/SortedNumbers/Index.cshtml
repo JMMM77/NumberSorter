@@ -1,0 +1,31 @@
+﻿@using NumberSorter.Common.Models
+
+@model List<SortedNumbersViewModel>;
+
+@{
+    ViewData["Title"] = "All Sorted Numbers";
+}
+
+<h1>@ViewData["Title"]</h1>
+<a asp-action="Create" class="btn btn-sm btn-primary">Add New List</a>
+<table class="table table-striped">
+    <tr>
+        <th>Name</th>
+        <th>Actions</th>
+    </tr>
+    <tbody>
+        @foreach (SortedNumbersViewModel sortedNumber in Model)
+        {
+            <tr>
+                <td>@sortedNumber.InitalValues</td>
+                <td>@sortedNumber.SortedValues</td>
+                <td>@sortedNumber.SortTime</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@sortedNumber.Id" class="btn btn-sm btn-primary">Details</a>
+                    <a asp-action="Edit" asp-route-id="@sortedNumber.Id" class="btn btn-sm btn-primary">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@sortedNumber.Id" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

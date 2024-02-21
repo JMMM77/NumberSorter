@@ -1,7 +1,14 @@
+using NumberSorter.Data.Configuration;
+using NumberSorter.Services.Configuration;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddNumberSorterData(builder.Configuration);
+
+builder.Services.AddNumberSorterServices();
 
 var app = builder.Build();
 
