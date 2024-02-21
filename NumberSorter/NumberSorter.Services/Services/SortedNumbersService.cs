@@ -46,7 +46,7 @@ namespace NumberSorter.Services.Services
             await _sortedNumbersRepository.CreateAsync(sortedNumbers);
             await _sortedNumbersRepository.SaveChangesAsync();
 
-            return sortedNumbersViewModel;
+            return _mapper.Map<SortedNumbersViewModel>(sortedNumbers);
         }
 
         /// <summary>

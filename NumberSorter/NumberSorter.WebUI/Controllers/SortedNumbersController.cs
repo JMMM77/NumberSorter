@@ -79,7 +79,7 @@ namespace NumberSorter.WebUI.Controllers
 
             sortedNumbers = _sortedNumbersService.CalculateSortedList(sortedNumbers);
 
-            await _sortedNumbersService.CreateAsync(sortedNumbers);
+            sortedNumbers = await _sortedNumbersService.CreateAsync(sortedNumbers);
             
 
             return View(nameof(Details), sortedNumbers);
