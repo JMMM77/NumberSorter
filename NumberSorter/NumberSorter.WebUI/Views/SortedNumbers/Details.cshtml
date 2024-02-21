@@ -13,14 +13,32 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
+            Initial Values
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id)
+            @Model.InitialValues
+        </dd>
+        <dt class="col-sm-2">
+            Sorted Values
+        </dt>
+        <dd class="col-sm-10">
+            @string.Join(",", Model.SortedValues)
+        </dd>
+        <dt class="col-sm-2">
+            Sort Time
+        </dt>
+        <dd class="col-sm-10">
+            @Model.SortTime
+        </dd>
+        <dt class="col-sm-2">
+            Orderd By
+        </dt>
+        <dd class="col-sm-10">
+            @(Model.IsAscending ? "Ascending" : "Descending")
         </dd>
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { Model.Id }) |
+    @Html.ActionLink("Delete", "Delete", new { Model.Id }) |
     <a asp-action="Index">Back to List</a>
 </div>

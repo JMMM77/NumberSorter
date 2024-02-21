@@ -19,6 +19,13 @@ namespace NumberSorter.Services.Services
             return _mapper.Map<List<SortedNumbersViewModel>>(dbModels);
         }
 
+        public async Task<SortedNumbersViewModel> GetById(int sortedNumbersId)
+        {
+            
+            var sortedNumbersViewModel = await _sortedNumbersRepository.GetById(sortedNumbersId);
+            return _mapper.Map<SortedNumbersViewModel>(sortedNumbersViewModel);
+        }
+
         public async Task<SortedNumbersViewModel> CreateAsync(SortedNumbersViewModel sortedNumbersViewModel)
         {
             var sortedNumbers = _mapper.Map<SortedNumbers>(sortedNumbersViewModel);
@@ -29,12 +36,25 @@ namespace NumberSorter.Services.Services
             return sortedNumbersViewModel;
         }
 
+        public async Task<bool> DeleteAsync(int sortedNumbersId)
+        {
+            var sortedNumbersToDelete = await _sortedNumbersRepository.GetById(sortedNumbersId);
+
+            if(sortedNumbersToDelete != null)
+            {
+                _sortedNumbersRepository.Delete(sortedNumbersToDelete);
+                return await _sortedNumbersRepository.SaveChangesAsync();
+            }
+
+            return true;
+        }
+
         public SortedNumbersViewModel CalculateSortedList(SortedNumbersViewModel sortedNumbersViewModel)
         {
             var initalValuesListed = sortedNumbersViewModel.InitialValues.Split(",").Select(int.Parse);
             var sortedValues = Enumerable.Empty<int>();
 
-            Stopwatch stopWatch = new Stopwatch();
+            Stopwatch stopWatch = new();
 
             if (sortedNumbersViewModel.IsAscending)
             {

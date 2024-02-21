@@ -1,0 +1,33 @@
+﻿@using NumberSorter.Common.Models
+
+@model SortedNumbersViewModel;
+
+@{
+   ViewData["Title"] = "Delete Sorted Numbers";
+}
+<h1>Delete @ViewData["Title"]</h1>
+<hr />
+<h2>Are you sure you want to delete these sorted numbers?</h2>
+
+<dl class="row">
+    <dt class="col-sm-2">ID</dt>
+    <dd class="col-sm-10">@Model.Id</dd>
+
+    <dt class="col-sm-2">Initial Values</dt>
+    <dd class="col-sm-10">@Model.InitialValues</dd>
+
+    <dt class="col-sm-2">Sorted Values</dt>
+    <dd class="col-sm-10">@string.Join(",", @Model.SortedValues)</dd>
+
+    <dt class="col-sm-2">Ordered By</dt>
+    <dd class="col-sm-10">@(Model.IsAscending ? "Ascending" : "Descending")</dd>
+
+    <dt class="col-sm-2">Sort Time</dt>
+    <dd class="col-sm-10">@Model.SortTime</dd>
+</dl>
+
+<form asp-action="Delete" asp-controller="SortedNumbers" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" value="Delete" class="btn btn-danger">Delete</button>
+    <a asp-action="Index" asp-controller="SortedNumbers" class="btn btn-secondary">Cancel</a>
+</form>

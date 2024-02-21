@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using NumberSorter.Data.Interfaces;
 using NumberSorter.Data.Models;
 
@@ -29,6 +30,17 @@ namespace NumberSorter.Data.Repositories
         }
 
         /// <summary>
+        /// Asynchronously retrieves all records of sorted numbers from the database.
+        /// </summary>
+        /// <returns>A task representing the asynchronous operation that yields a list of SortedNumbers.</returns>
+        public async Task<SortedNumbers?> GetById(int sortedNumbersId)
+        {
+            var test = _dbSet.Where(x => x.Id == sortedNumbersId);
+
+            return await _dbSet.Where(x => x.Id == sortedNumbersId).FirstOrDefaultAsync();
+        }
+
+        /// <summary>
         /// Updates a record representing sorted numbers in the database.
         /// </summary>
         /// <param name="sortedNumbers">The SortedNumbers object to be updated.</param>
@@ -52,7 +64,7 @@ namespace NumberSorter.Data.Repositories
         /// Saves changes made to the database context asynchronously.
         /// </summary>
         /// <returns>If the database has been successfully saved</returns>
-        public async  Task<bool> SaveChangesAsync()
+        public async Task<bool> SaveChangesAsync()
         {
             return await _numberSorterDBContext.SaveChangesAsync() > 0;
         }

@@ -37,5 +37,20 @@ namespace NumberSorter.WebUI.Controllers
 
             return View(nameof(Details), sortedNumbers);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteAsync(int id)
+        {
+            var model = await _sortedNumbersService.GetById(id);
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteAsync(SortedNumbersViewModel sortedNumbers)
+        {
+            await _sortedNumbersService.DeleteAsync(sortedNumbers.Id);
+
+            return RedirectToAction("Index");
+        }
     }
 }
