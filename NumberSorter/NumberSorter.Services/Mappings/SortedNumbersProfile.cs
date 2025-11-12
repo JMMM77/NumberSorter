@@ -1,20 +1,20 @@
 ﻿using AutoMapper;
-using NumberSorter.Data.Models;
 using NumberSorter.Common.Models;
+using NumberSorter.Data.Models;
 
-namespace NumberSorter.Services.Mappings
+namespace NumberSorter.Services.Mappings;
+
+/// <summary>
+/// Represents the AutoMapper profile for mapping between SortedNumbers and SortedNumbersViewModel.
+/// </summary>
+public class SortedNumbersProfile : Profile
 {
+
     /// <summary>
-    /// Represents the AutoMapper profile for mapping between SortedNumbers and SortedNumbersViewModel.
+    /// Initializes a new instance of the SortedNumbersProfile class.
     /// </summary>
-    public class SortedNumbersProfile : Profile
+    public SortedNumbersProfile()
     {
-        /// <summary>
-        /// Initializes a new instance of the SortedNumbersProfile class.
-        /// </summary>
-        public SortedNumbersProfile()
-        {
-            CreateMap<SortedNumbers, SortedNumbersViewModel>(MemberList.Destination).ReverseMap();
-        }
+        this.CreateMap<SortedNumbers, SortedNumbersViewModel>(MemberList.Destination).ReverseMap();
     }
 }

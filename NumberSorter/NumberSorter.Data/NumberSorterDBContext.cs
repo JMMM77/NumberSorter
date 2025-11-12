@@ -1,22 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using NumberSorter.Data.Configurations;
 using NumberSorter.Data.Models;
-using System;
 
-namespace NumberSorter.Data
+namespace NumberSorter.Data;
+
+public class NumberSorterDBContext(DbContextOptions<NumberSorterDBContext> options) : DbContext(options)
 {
-    public class NumberSorterDBContext(DbContextOptions<NumberSorterDBContext> options) : DbContext(options)
-    {
-        public DbSet<SortedNumbers> SortedNumbers { get; set; }
+    public DbSet<SortedNumbers> SortedNumbers { get; set; }
 
-        /// <summary>
-        /// Configures the SortedNumbers model using the specified modelBuilder.
-        /// </summary>
-        /// <param name="modelBuilder">The builder being used to construct the model for the DbContext.</param>
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.ApplyConfiguration(new SortedNumbersConfiguration());
-        }
-    }
+    /// <summary>
+    /// Configures the SortedNumbers model using the specified modelBuilder.
+    /// </summary>
+    /// <param name="modelBuilder">The builder being used to construct the model for the DbContext.</param>
+    protected override void OnModelCreating(ModelBuilder modelBuilder) => modelBuilder.ApplyConfiguration(new SortedNumbersConfiguration());
 }

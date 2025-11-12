@@ -1,4 +1,4 @@
-using NumberSorter.Data.Configuration;
+using NumberSorter.Data.Configurations;
 using NumberSorter.Services.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
