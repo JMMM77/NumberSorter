@@ -13,7 +13,10 @@ namespace NumberSorter.Services.Configuration
         /// <returns>The modified IServiceCollection.</returns>
         public static IServiceCollection AddNumberSorterServices(this IServiceCollection services)
         {
-            services.AddAutoMapper(typeof(SortedNumbersProfile));
+            services.AddAutoMapper(cfg =>
+            {
+                cfg.AddProfile<SortedNumbersProfile>();
+            });
             services.AddScoped<ISortedNumbersService, SortedNumbersService>();
 
             return services;
