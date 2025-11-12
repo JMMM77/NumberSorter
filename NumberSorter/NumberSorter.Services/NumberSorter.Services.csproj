@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NumberSorter.Common\NumberSorter.Common.csproj" />
+    <ProjectReference Include="..\NumberSorter.Shared\NumberSorter.Shared.csproj" />
     <ProjectReference Include="..\NumberSorter.Data\NumberSorter.Data.csproj" />
   </ItemGroup>
 </Project>

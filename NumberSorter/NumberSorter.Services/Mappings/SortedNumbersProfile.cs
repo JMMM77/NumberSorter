@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using NumberSorter.Common.Models;
+using NumberSorter.Shared.Models;
 using NumberSorter.Data.Models;
 
 namespace NumberSorter.Services.Mappings;

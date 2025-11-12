@@ -1,4 +1,4 @@
-﻿using NumberSorter.Common.Models;
+﻿using NumberSorter.Shared.Models;
 
 namespace NumberSorter.Services.Interfaces;
 

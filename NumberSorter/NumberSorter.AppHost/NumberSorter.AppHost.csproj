@@ -1,0 +1,21 @@
+﻿<Project Sdk="Aspire.AppHost.Sdk/13.0.0">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsAspireHost>true</IsAspireHost>
+    <UserSecretsId>cb3c8682-8cad-41f8-a6c7-22bc7adea496</UserSecretsId>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Aspire.Hosting.SqlServer" Version="13.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\NumberSorter.WebUI\NumberSorter.WebUI.csproj" />
+		<ProjectReference Include="..\NumberSorter.Shared\NumberSorter.Shared.csproj" IsAspireProjectResource="false" />
+	</ItemGroup>
+	
+</Project>

@@ -13,7 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\NumberSorter.Data\NumberSorter.Data.csproj" />
     <ProjectReference Include="..\NumberSorter.Services\NumberSorter.Services.csproj" />
-    <ProjectReference Include="..\NumberSorter.Common\NumberSorter.Common.csproj" />
+    <ProjectReference Include="..\NumberSorter.Shared\NumberSorter.Shared.csproj" />
   </ItemGroup>
 
 </Project>

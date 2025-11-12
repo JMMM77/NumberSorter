@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using AutoMapper;
-using NumberSorter.Common.Models;
+using NumberSorter.Shared.Models;
 using NumberSorter.Data.Interfaces;
 using NumberSorter.Data.Models;
 using NumberSorter.Services.Interfaces;

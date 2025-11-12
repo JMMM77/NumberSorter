@@ -1,8 +1,8 @@
 ﻿using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using NumberSorter.Common.Models;
 using NumberSorter.Services.Interfaces;
+using NumberSorter.Shared.Models;
 
 namespace NumberSorter.WebUI.Controllers;
 
@@ -77,7 +77,7 @@ public class SortedNumbersController(ISortedNumbersService sortedNumbersService)
 
         sortedNumbers = await _sortedNumbersService.CreateAsync(sortedNumbers);
 
-        return this.View(nameof(DetailsAsync), sortedNumbers);
+        return this.View("Details", sortedNumbers);
     }
 
     /// <summary>

@@ -16,9 +16,6 @@ public static class ServiceCollectionExtensions
     /// <returns>The modified IServiceCollection.</returns>
     public static IServiceCollection AddNumberSorterData(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<NumberSorterDBContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("NumberSorterDatabase")));
-
         services.AddScoped<ISortedNumbersRespository, SortedNumbersRespository>();
 
         return services;

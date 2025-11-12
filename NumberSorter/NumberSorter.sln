@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.9.34607.119
+# Visual Studio Version 18
+VisualStudioVersion = 18.0.11205.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NumberSorter.WebUI", "NumberSorter.WebUI\NumberSorter.WebUI.csproj", "{5E9D89CA-8CAA-4631-9CED-15F9BCA36A7E}"
 EndProject
@@ -9,7 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NumberSorter.Services", "Nu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NumberSorter.Data", "NumberSorter.Data\NumberSorter.Data.csproj", "{5966AFBA-D9A4-4221-AE48-2EB281A61EBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NumberSorter.Common", "NumberSorter.Common\NumberSorter.Common.csproj", "{ECE21C46-48D4-40BE-B79D-3616A9C0B64E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NumberSorter.Shared", "NumberSorter.Shared\NumberSorter.Shared.csproj", "{ECE21C46-48D4-40BE-B79D-3616A9C0B64E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NumberSorter.AppHost", "NumberSorter.AppHost\NumberSorter.AppHost.csproj", "{5CA0C671-C394-4439-AA2A-9389FDE11C3F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{ECE21C46-48D4-40BE-B79D-3616A9C0B64E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ECE21C46-48D4-40BE-B79D-3616A9C0B64E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ECE21C46-48D4-40BE-B79D-3616A9C0B64E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CA0C671-C394-4439-AA2A-9389FDE11C3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CA0C671-C394-4439-AA2A-9389FDE11C3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CA0C671-C394-4439-AA2A-9389FDE11C3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CA0C671-C394-4439-AA2A-9389FDE11C3F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

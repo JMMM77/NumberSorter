@@ -54,5 +54,4 @@ internal class SortedNumbersRespository(NumberSorterDBContext numberSorterDBCont
     /// </summary>
     /// <returns>If the database has been successfully saved</returns>
     public async Task<bool> SaveChangesAsync() => await _numberSorterDBContext.SaveChangesAsync() > 0;
-
 }

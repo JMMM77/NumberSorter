@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace NumberSorter.Common.Models;
+namespace NumberSorter.Shared.Models;
 
 /// <summary>
 /// View model which is used to be displayed in the SortedNumbers view.
