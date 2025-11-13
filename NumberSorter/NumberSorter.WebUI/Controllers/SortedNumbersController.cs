@@ -1,6 +1,6 @@
 ﻿using System.Text;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using NumberSorter.Services.Interfaces;
 using NumberSorter.Shared.Models;
 
@@ -19,12 +19,12 @@ public class SortedNumbersController(ISortedNumbersService sortedNumbersService)
     {
         var model = await _sortedNumbersService.GetAllAsync();
 
-        model.ForEach(x =>
+        foreach (var item in model)
         {
-            x.InitialValues = x.InitialValues.Length > 20 ? x.InitialValues[..20] + "..." : x.InitialValues;
-            x.SortedValuesString = string.Join(",", x.SortedValues);
-            x.SortedValuesString = x.SortedValuesString.Length > 20 ? x.SortedValuesString[..20] + "..." : x.SortedValuesString;
-        });
+            item.InitialValues = item.InitialValues.Length > 20 ? item.InitialValues[..20] + "..." : item.InitialValues;
+            item.SortedValuesString = string.Join(",", item.SortedValues);
+            item.SortedValuesString = item.SortedValuesString.Length > 20 ? item.SortedValuesString[..20] + "..." : item.SortedValuesString;
+        }
 
         return this.View(model);
     }
@@ -37,8 +37,8 @@ public class SortedNumbersController(ISortedNumbersService sortedNumbersService)
     public async Task<IActionResult> ExportToJsonAsync()
     {
         var allSortedValues = await _sortedNumbersService.GetAllAsync();
+        var json = JsonSerializer.Serialize(allSortedValues);
 
-        var json = JsonConvert.SerializeObject(allSortedValues, Formatting.Indented);
         return this.File(Encoding.UTF8.GetBytes(json), "application/json", "sorted_numbers.json");
     }
 

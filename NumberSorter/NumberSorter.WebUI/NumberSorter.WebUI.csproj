@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\NumberSorter.Data\NumberSorter.Data.csproj" />
     <ProjectReference Include="..\NumberSorter.Services\NumberSorter.Services.csproj" />
     <ProjectReference Include="..\NumberSorter.Shared\NumberSorter.Shared.csproj" />

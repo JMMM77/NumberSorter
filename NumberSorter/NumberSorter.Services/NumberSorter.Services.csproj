@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="15.1.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\NumberSorter.Shared\NumberSorter.Shared.csproj" />
     <ProjectReference Include="..\NumberSorter.Data\NumberSorter.Data.csproj" />
   </ItemGroup>

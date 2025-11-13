@@ -8,14 +8,14 @@ public interface ISortedNumbersService
     /// Retrieves all sorted numbers asynchronously.
     /// </summary>
     /// <returns>A list of SortedNumbersViewModel.</returns>
-    Task<List<SortedNumbersViewModel>> GetAllAsync();
+    Task<IEnumerable<SortedNumbersViewModel>> GetAllAsync();
 
     /// <summary>
     /// Retrieves a sorted number by its ID asynchronously.
     /// </summary>
     /// <param name="sortedNumbersId">The ID of the sorted numbers.</param>
     /// <returns>The SortedNumbersViewModel with the specified ID.</returns>
-    Task<SortedNumbersViewModel> GetById(int sortedNumbersId);
+    Task<SortedNumbersViewModel?> GetById(int sortedNumbersId);
 
     /// <summary>
     /// Creates a new sorted number asynchronously.

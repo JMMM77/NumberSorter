@@ -2,6 +2,7 @@
 
 public class SortedNumbers(int id, IEnumerable<int> sortedValues, string initialValues, TimeSpan sortTime, bool isAscending)
 {
+
     public int Id { get; set; } = id;
 
     /// <summary>

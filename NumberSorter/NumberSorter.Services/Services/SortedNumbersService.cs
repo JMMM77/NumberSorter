@@ -1,26 +1,24 @@
 ﻿using System.Diagnostics;
-using AutoMapper;
-using NumberSorter.Shared.Models;
 using NumberSorter.Data.Interfaces;
-using NumberSorter.Data.Models;
 using NumberSorter.Services.Interfaces;
+using NumberSorter.Services.Mapper;
+using NumberSorter.Shared.Models;
 
 namespace NumberSorter.Services.Services;
 
-internal class SortedNumbersService(ISortedNumbersRespository sortedNumbersRepository, IMapper mapper) : ISortedNumbersService
+internal class SortedNumbersService(ISortedNumbersRespository sortedNumbersRepository) : ISortedNumbersService
 {
     private readonly ISortedNumbersRespository _sortedNumbersRepository = sortedNumbersRepository;
-    private readonly IMapper _mapper = mapper;
 
     /// <summary>
     /// Retrieves all sorted numbers asynchronously.
     /// </summary>
     /// <returns>A list of SortedNumbersViewModel.</returns>
-    public async Task<List<SortedNumbersViewModel>> GetAllAsync()
+    public async Task<IEnumerable<SortedNumbersViewModel>> GetAllAsync()
     {
         var dbModels = await _sortedNumbersRepository.GetAllAsync();
 
-        return _mapper.Map<List<SortedNumbersViewModel>>(dbModels);
+        return dbModels.Select(SortedNumbersMapper.ToViewModel);
     }
 
     /// <summary>
@@ -28,12 +26,12 @@ internal class SortedNumbersService(ISortedNumbersRespository sortedNumbersRepos
     /// </summary>
     /// <param name="sortedNumbersId">The ID of the sorted numbers.</param>
     /// <returns>The SortedNumbersViewModel with the specified ID.</returns>
-    public async Task<SortedNumbersViewModel> GetById(int sortedNumbersId)
+    public async Task<SortedNumbersViewModel?> GetById(int sortedNumbersId)
     {
 
         var sortedNumbersViewModel = await _sortedNumbersRepository.GetById(sortedNumbersId);
 
-        return _mapper.Map<SortedNumbersViewModel>(sortedNumbersViewModel);
+        return sortedNumbersViewModel?.ToViewModel();
     }
 
     /// <summary>
@@ -43,12 +41,12 @@ internal class SortedNumbersService(ISortedNumbersRespository sortedNumbersRepos
     /// <returns>The created SortedNumbersViewModel.</returns>
     public async Task<SortedNumbersViewModel> CreateAsync(SortedNumbersViewModel sortedNumbersViewModel)
     {
-        var sortedNumbers = _mapper.Map<SortedNumbers>(sortedNumbersViewModel);
+        var sortedNumbers = sortedNumbersViewModel.ToEntity();
 
         await _sortedNumbersRepository.CreateAsync(sortedNumbers);
         await _sortedNumbersRepository.SaveChangesAsync();
 
-        return _mapper.Map<SortedNumbersViewModel>(sortedNumbers);
+        return sortedNumbers.ToViewModel();
     }
 
     /// <summary>
