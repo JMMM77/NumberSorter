@@ -5,13 +5,15 @@ VisualStudioVersion = 18.0.11205.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NumberSorter.WebUI", "NumberSorter.WebUI\NumberSorter.WebUI.csproj", "{5E9D89CA-8CAA-4631-9CED-15F9BCA36A7E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NumberSorter.Services", "NumberSorter.Services\NumberSorter.Services.csproj", "{FC2983EA-B20D-43CA-B874-B2B62DAED341}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NumberSorter.Services", "Services\NumberSorter.Services\NumberSorter.Services.csproj", "{FC2983EA-B20D-43CA-B874-B2B62DAED341}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NumberSorter.Data", "NumberSorter.Data\NumberSorter.Data.csproj", "{5966AFBA-D9A4-4221-AE48-2EB281A61EBA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NumberSorter.Shared", "NumberSorter.Shared\NumberSorter.Shared.csproj", "{ECE21C46-48D4-40BE-B79D-3616A9C0B64E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NumberSorter.AppHost", "NumberSorter.AppHost\NumberSorter.AppHost.csproj", "{5CA0C671-C394-4439-AA2A-9389FDE11C3F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{A5297009-E0BE-4F33-A772-6E786D08ADAB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +44,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FC2983EA-B20D-43CA-B874-B2B62DAED341} = {A5297009-E0BE-4F33-A772-6E786D08ADAB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CFB2F722-988F-4D88-951D-78A353ED7777}
