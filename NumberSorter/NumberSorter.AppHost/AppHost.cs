@@ -11,4 +11,6 @@ builder.AddProject<Projects.NumberSorter_WebUI>("numbersorter-webui")
     .WithReference(db)
     .WaitFor(db);
 
+builder.AddProject<Projects.NumberSorter_WebApis>("numbersorter-webapis");
+
 builder.Build().Run();

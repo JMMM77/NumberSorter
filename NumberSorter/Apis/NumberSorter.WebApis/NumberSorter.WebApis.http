@@ -1,0 +1,6 @@
+@NumberSorter.WebApis_HostAddress = http://localhost:5271
+
+GET {{NumberSorter.WebApis_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
