@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using NumberSorter.AppHost.Constants;
 using NumberSorter.Data;
 using NumberSorter.Data.Configurations;
 using NumberSorter.Services.Configuration;
-using NumberSorter.Shared.Constants;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +11,7 @@ builder.AddServiceDefaults();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.AddSqlServerDbContext<NumberSorterDBContext>(NumberSorterAppConstants.AspireSqlDatabaseName);
+builder.AddSqlServerDbContext<NumberSorterDBContext>(AspireResourceNameConstants.SqlDatabaseName);
 
 builder.Services.AddNumberSorterData(builder.Configuration);
 

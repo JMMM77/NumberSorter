@@ -1,4 +1,6 @@
-﻿using NumberSorter.WebApis.Apis;
+﻿using Microsoft.EntityFrameworkCore;
+using NumberSorter.Data;
+using NumberSorter.WebApis.Apis;
 
 namespace NumberSorter.WebApis.Extensions;
 
@@ -13,6 +15,12 @@ internal static class WebApplicationExtensions
         }
 
         app.UseHttpsRedirection();
+
+        using var scope = app.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<NumberSorterDBContext>();
+
+        db.Database.EnsureCreated();
+        db.Database.Migrate();
 
         app.AddSortedNumbersApis();
 
