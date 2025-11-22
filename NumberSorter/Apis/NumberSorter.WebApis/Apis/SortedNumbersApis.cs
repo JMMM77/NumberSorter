@@ -14,8 +14,12 @@ internal static class SortedNumbersApis
         group.MapGet("/", async (ISortedNumbersService sortedNumbersService)
             => await sortedNumbersService.GetAllAsync());
 
-        group.MapGet("/{id}", async (int id, ISortedNumbersService sortedNumbersService)
-            => await sortedNumbersService.GetById(id));
+        group.MapGet("/{id}", async Task<IResult> (int id, ISortedNumbersService sortedNumbersService) =>
+            {
+                var foundViewModel = await sortedNumbersService.GetById(id);
+
+                return foundViewModel == null ? TypedResults.NotFound() : TypedResults.Ok(foundViewModel);
+            });
 
         group.MapPost("/", async (SortedNumbersViewModel sortedNumbersViewModel, ISortedNumbersService sortedNumbersService)
             => await sortedNumbersService.CreateAsync(sortedNumbersViewModel));
