@@ -7,12 +7,12 @@ var sql = builder.AddSqlServer("sql")
 
 var db = sql.AddDatabase(AspireResourceNameConstants.SqlDatabaseName);
 
-builder.AddProject<Projects.NumberSorter_WebUI>(AspireResourceNameConstants.WebUiProjectName)
+var webApi = builder.AddProject<Projects.NumberSorter_WebApis>(AspireResourceNameConstants.WebApiProjectName)
     .WithReference(db)
     .WaitFor(db);
 
-builder.AddProject<Projects.NumberSorter_WebApis>(AspireResourceNameConstants.WebApiProjectName)
-    .WithReference(db)
-    .WaitFor(db);
+builder.AddProject<Projects.NumberSorter_WebUI>(AspireResourceNameConstants.WebUiProjectName)
+    .WithReference(webApi)
+    .WaitFor(webApi);
 
 builder.Build().Run();

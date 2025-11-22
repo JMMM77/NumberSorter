@@ -1,8 +1,8 @@
 ﻿using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
-using NumberSorter.Services.Interfaces;
-using NumberSorter.Shared.Models;
+using NumberSorter.WebUI.Interfaces;
+using NumberSorter.WebUI.Models.SortedNumbers;
 
 namespace NumberSorter.WebUI.Controllers;
 
@@ -15,16 +15,9 @@ public class SortedNumbersController(ISortedNumbersService sortedNumbersService)
     /// </summary>
     /// <returns>A task that represents the asynchronous operation and returns an IActionResult.</returns>
     [HttpGet]
-    public async Task<IActionResult> IndexAsync()
+    public async Task<IActionResult> IndexAsync(CancellationToken cancellationToken)
     {
-        var model = await _sortedNumbersService.GetAllAsync();
-
-        foreach (var item in model)
-        {
-            item.InitialValues = item.InitialValues.Length > 20 ? item.InitialValues[..20] + "..." : item.InitialValues;
-            item.SortedValuesString = string.Join(",", item.SortedValues);
-            item.SortedValuesString = item.SortedValuesString.Length > 20 ? item.SortedValuesString[..20] + "..." : item.SortedValuesString;
-        }
+        var model = await _sortedNumbersService.GetAllAsync(cancellationToken);
 
         return this.View(model);
     }
@@ -34,18 +27,18 @@ public class SortedNumbersController(ISortedNumbersService sortedNumbersService)
     /// </summary>
     /// <returns>A task that represents the asynchronous operation and returns an IActionResult.</returns>
     [HttpPost]
-    public async Task<IActionResult> ExportToJsonAsync()
+    public async Task<IActionResult> ExportToJsonAsync(CancellationToken cancellationToken)
     {
-        var allSortedValues = await _sortedNumbersService.GetAllAsync();
+        var allSortedValues = await _sortedNumbersService.GetAllAsync(cancellationToken);
         var json = JsonSerializer.Serialize(allSortedValues);
 
         return this.File(Encoding.UTF8.GetBytes(json), "application/json", "sorted_numbers.json");
     }
 
     [HttpGet]
-    public async Task<IActionResult> DetailsAsync(int id)
+    public async Task<IActionResult> DetailsAsync(int id, CancellationToken cancellationToken)
     {
-        var model = await _sortedNumbersService.GetById(id);
+        var model = await _sortedNumbersService.GetByIdAsync(id, cancellationToken);
 
         return this.View(model);
     }
@@ -66,18 +59,23 @@ public class SortedNumbersController(ISortedNumbersService sortedNumbersService)
     /// If the item is created successfully, returns the Details view with the created sortedNumbers.
     /// </returns>
     [HttpPost]
-    public async Task<IActionResult> CreateAsync(SortedNumbersViewModel sortedNumbers)
+    public async Task<IActionResult> CreateAsync(SortedNumbersCreateViewModel sortedNumbers, CancellationToken cancellationToke)
     {
         if (!this.ModelState.IsValid)
         {
             return this.View(sortedNumbers);
         }
 
-        sortedNumbers = _sortedNumbersService.CalculateSortedList(sortedNumbers);
+        var (wasSuccess, createdModel) = await _sortedNumbersService.CreateAsync(sortedNumbers, cancellationToke);
 
-        sortedNumbers = await _sortedNumbersService.CreateAsync(sortedNumbers);
+        if (!wasSuccess || createdModel is null)
+        {
+            this.ModelState.AddModelError(string.Empty, "Something went wrong while creating the record. Please try again later.");
 
-        return this.View("Details", sortedNumbers);
+            return this.View(sortedNumbers);
+        }
+
+        return this.RedirectToAction(nameof(DetailsAsync), new { id = createdModel.Id });
     }
 
     /// <summary>
@@ -86,9 +84,10 @@ public class SortedNumbersController(ISortedNumbersService sortedNumbersService)
     /// <param name="id">The ID of the SortedNumbersViewModel to delete.</param>
     /// <returns>A task that represents the asynchronous operation and returns a view result.</returns>
     [HttpGet]
-    public async Task<IActionResult> DeleteAsync(int id)
+    public async Task<IActionResult> DeleteAsync(int id, CancellationToken cancellationToken)
     {
-        var model = await _sortedNumbersService.GetById(id);
+        var model = await _sortedNumbersService.GetByIdAsync(id, cancellationToken);
+
         return this.View(model);
     }
 
@@ -98,9 +97,9 @@ public class SortedNumbersController(ISortedNumbersService sortedNumbersService)
     /// <param name="sortedNumbers">The SortedNumbersViewModel to delete.</param>
     /// <returns>A task that represents the asynchronous operation and returns an IActionResult.</returns>
     [HttpPost]
-    public async Task<IActionResult> DeleteAsync(SortedNumbersViewModel sortedNumbers)
+    public async Task<IActionResult> DeleteAsync(SortedNumbersDetailsViewModel sortedNumbers, CancellationToken cancellationToken)
     {
-        await _sortedNumbersService.DeleteAsync(sortedNumbers.Id);
+        await _sortedNumbersService.DeleteAsync(sortedNumbers.Id, cancellationToken);
 
         return this.RedirectToAction("Index");
     }
