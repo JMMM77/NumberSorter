@@ -9,25 +9,19 @@ public interface ISortedNumbersRespository
     /// </summary>
     /// <param name="sortedNumbers">The SortedNumbers object to be added to the database.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    Task CreateAsync(SortedNumbers sortedNumbers);
+    Task CreateAsync(SortedNumbers sortedNumbers, CancellationToken cancellationToken);
 
     /// <summary>
     /// Asynchronously retrieves all records of sorted numbers from the database.
     /// </summary>
     /// <returns>A task representing the asynchronous operation that yields a list of SortedNumbers.</returns>
-    Task<List<SortedNumbers>> GetAllAsync();
+    Task<List<SortedNumbers>> GetAllAsync(CancellationToken cancellationToken);
 
     /// <summary>
     /// Asynchronously retrieves all records of sorted numbers from the database.
     /// </summary>
     /// <returns>A task representing the asynchronous operation that yields a list of SortedNumbers.</returns>
-    Task<SortedNumbers?> GetById(int sortedNumbersId);
-
-    /// <summary>
-    /// Updates a record representing sorted numbers in the database.
-    /// </summary>
-    /// <param name="sortedNumbers">The SortedNumbers object to be updated.</param>
-    void Update(SortedNumbers sortedNumbers);
+    Task<SortedNumbers?> GetById(int sortedNumbersId, CancellationToken cancellationToken);
 
     /// <summary>
     /// Removes a record representing sorted numbers from the database.
@@ -39,5 +33,5 @@ public interface ISortedNumbersRespository
     /// Saves changes made to the database context asynchronously.
     /// </summary>
     /// <returns>If the database has been successfully saved</returns>
-    Task<bool> SaveChangesAsync();
+    Task<bool> SaveChangesAsync(CancellationToken cancellationToken);
 }

@@ -14,6 +14,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\Apis\NumberSorter.WebApis\NumberSorter.WebApis.csproj" />
 		<ProjectReference Include="..\NumberSorter.WebUI\NumberSorter.WebUI.csproj" />
 		<ProjectReference Include="..\NumberSorter.Shared\NumberSorter.Shared.csproj" IsAspireProjectResource="false" />
 	</ItemGroup>

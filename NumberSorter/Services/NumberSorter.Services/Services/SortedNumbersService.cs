@@ -1,8 +1,9 @@
-﻿using System.Diagnostics;
-using NumberSorter.Data.Interfaces;
+﻿using NumberSorter.Data.Interfaces;
+using NumberSorter.Services.Dtos;
+using NumberSorter.Services.Helpers;
 using NumberSorter.Services.Interfaces;
 using NumberSorter.Services.Mapper;
-using NumberSorter.Shared.Models;
+using NumberSorter.WebUI.Dtos;
 
 namespace NumberSorter.Services.Services;
 
@@ -13,40 +14,40 @@ internal class SortedNumbersService(ISortedNumbersRespository sortedNumbersRepos
     /// <summary>
     /// Retrieves all sorted numbers asynchronously.
     /// </summary>
-    /// <returns>A list of SortedNumbersViewModel.</returns>
-    public async Task<IEnumerable<SortedNumbersViewModel>> GetAllAsync()
+    /// <returns>A list of dto.</returns>
+    public async Task<SortedNumbersDetailsDto[]> GetAllAsync(CancellationToken cancellationToken)
     {
-        var dbModels = await _sortedNumbersRepository.GetAllAsync();
+        var dbModels = await _sortedNumbersRepository.GetAllAsync(cancellationToken);
 
-        return dbModels.Select(SortedNumbersMapper.ToViewModel);
+        return [.. dbModels.Select(SortedNumbersMapper.ToDetailsDto)];
     }
 
     /// <summary>
     /// Retrieves a sorted number by its ID asynchronously.
     /// </summary>
     /// <param name="sortedNumbersId">The ID of the sorted numbers.</param>
-    /// <returns>The SortedNumbersViewModel with the specified ID.</returns>
-    public async Task<SortedNumbersViewModel?> GetById(int sortedNumbersId)
+    /// <returns>The dto with the specified ID.</returns>
+    public async Task<SortedNumbersDetailsDto?> GetById(int sortedNumbersId, CancellationToken cancellationToken)
     {
+        var dto = await _sortedNumbersRepository.GetById(sortedNumbersId, cancellationToken);
 
-        var sortedNumbersViewModel = await _sortedNumbersRepository.GetById(sortedNumbersId);
-
-        return sortedNumbersViewModel?.ToViewModel();
+        return dto?.ToDetailsDto();
     }
 
     /// <summary>
     /// Creates a new sorted number asynchronously.
     /// </summary>
-    /// <param name="sortedNumbersViewModel">The SortedNumbersViewModel to create.</param>
-    /// <returns>The created SortedNumbersViewModel.</returns>
-    public async Task<SortedNumbersViewModel> CreateAsync(SortedNumbersViewModel sortedNumbersViewModel)
+    /// <param name="dto">The dto to create.</param>
+    /// <returns>The created dto.</returns>
+    public async Task<SortedNumbersDetailsDto> CreateAsync(SortedNumbersCreateDto dto, CancellationToken cancellationToken)
     {
-        var sortedNumbers = sortedNumbersViewModel.ToEntity();
+        var (sortedValues, sortTime) = SortedNumbersHelper.CalculateSortedList(dto.InitialValues, dto.IsAscending);
+        var sortedNumbers = dto.ToEntity(sortedValues, sortTime);
 
-        await _sortedNumbersRepository.CreateAsync(sortedNumbers);
-        await _sortedNumbersRepository.SaveChangesAsync();
+        await _sortedNumbersRepository.CreateAsync(sortedNumbers, cancellationToken);
+        await _sortedNumbersRepository.SaveChangesAsync(cancellationToken);
 
-        return sortedNumbers.ToViewModel();
+        return sortedNumbers.ToDetailsDto();
     }
 
     /// <summary>
@@ -54,52 +55,17 @@ internal class SortedNumbersService(ISortedNumbersRespository sortedNumbersRepos
     /// </summary>
     /// <param name="sortedNumbersId">The ID of the sorted numbers to delete.</param>
     /// <returns>True if deletion was successful; otherwise, false.</returns>
-    public async Task<bool> DeleteAsync(int sortedNumbersId)
+    public async Task<bool> DeleteAsync(int sortedNumbersId, CancellationToken cancellationToken)
     {
-        var sortedNumbersToDelete = await _sortedNumbersRepository.GetById(sortedNumbersId);
+        var sortedNumbersToDelete = await _sortedNumbersRepository.GetById(sortedNumbersId, cancellationToken);
 
         if (sortedNumbersToDelete != null)
         {
             _sortedNumbersRepository.Delete(sortedNumbersToDelete);
 
-            return await _sortedNumbersRepository.SaveChangesAsync();
+            return await _sortedNumbersRepository.SaveChangesAsync(cancellationToken);
         }
 
         return true;
-    }
-
-    /// <summary>
-    /// Sorts a list of numbers based on the sorting criteria provided in the SortedNumbersViewModel.
-    /// </summary>
-    /// <param name="sortedNumbersViewModel">The SortedNumbersViewModel containing sorting criteria.</param>
-    /// <returns>The SortedNumbersViewModel with sorted values and sort time.</returns>
-    public SortedNumbersViewModel CalculateSortedList(SortedNumbersViewModel sortedNumbersViewModel)
-    {
-        var initalValuesListed = sortedNumbersViewModel.InitialValues.Split(",").Select(int.Parse);
-        var sortedValues = Enumerable.Empty<int>();
-
-        Stopwatch stopWatch = new();
-
-        if (sortedNumbersViewModel.IsAscending)
-        {
-            stopWatch.Start();
-
-            sortedValues = initalValuesListed.Order();
-
-            stopWatch.Stop();
-        }
-        else
-        {
-            stopWatch.Start();
-
-            sortedValues = initalValuesListed.OrderByDescending(num => num);
-
-            stopWatch.Stop();
-        }
-
-        sortedNumbersViewModel.SortedValues = sortedValues;
-        sortedNumbersViewModel.SortTime = stopWatch.Elapsed;
-
-        return sortedNumbersViewModel;
     }
 }

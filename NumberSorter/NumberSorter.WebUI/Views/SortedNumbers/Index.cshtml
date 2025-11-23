@@ -1,6 +1,6 @@
-﻿@using NumberSorter.Shared.Models
+﻿@using NumberSorter.WebUI.Models.SortedNumbers
 
-@model List<SortedNumbersViewModel>;
+@model SortedNumbersDetailsViewModel[];
 
 @{
     ViewData["Title"] = "All Sorted Numbers";
@@ -28,11 +28,11 @@
         <th>Actions</th>
     </tr>
     <tbody>
-        @foreach (SortedNumbersViewModel sortedNumber in Model)
+        @foreach (var sortedNumber in Model)
         {
             <tr>
-                <td>@sortedNumber.InitialValues</td>
-                <td>@sortedNumber.SortedValuesString</td>
+                <td>@string.Join(",", sortedNumber.InitialValues)</td>
+                <td>@string.Join(",", sortedNumber.SortedValues)</td>
                 <td>@sortedNumber.SortTime</td>
                 <td>@(sortedNumber.IsAscending ? "Ascending" : "Descending")</td>
                 <td>
