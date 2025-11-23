@@ -3,17 +3,15 @@ using NumberSorter.WebUI.Interfaces;
 
 namespace NumberSorter.WebUI.Clients;
 
-public sealed class SortedNumbersApiClient(IHttpClientFactory httpClientFactory, ILogger<SortedNumbersApiClient> logger) : ISortedNumbersApiClient
+public sealed class SortedNumbersApiClient(HttpClient httpClient, ILogger<SortedNumbersApiClient> logger) : ISortedNumbersApiClient
 {
     private const string API_PATH = "sorted-numbers";
 
     public async Task<(bool Success, SortedNumbersDetailsDto[]? DetailsDto)> GetAllAsync(CancellationToken cancellationToken)
     {
-        var http = httpClientFactory.CreateClient();
-
         try
         {
-            var returnedDto = await http.GetFromJsonAsync<SortedNumbersDetailsDto[]>(CreateApiPath(), cancellationToken);
+            var returnedDto = await httpClient.GetFromJsonAsync<SortedNumbersDetailsDto[]>(CreateApiPath(), cancellationToken);
 
             return (Success: true, returnedDto);
         }
@@ -30,11 +28,9 @@ public sealed class SortedNumbersApiClient(IHttpClientFactory httpClientFactory,
 
     public async Task<(bool Success, SortedNumbersDetailsDto? DetailsDto)> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
-        var http = httpClientFactory.CreateClient();
-
         try
         {
-            var returnedDto = await http.GetFromJsonAsync<SortedNumbersDetailsDto>(CreateApiPathWithId(id), cancellationToken);
+            var returnedDto = await httpClient.GetFromJsonAsync<SortedNumbersDetailsDto>(CreateApiPathWithId(id), cancellationToken);
 
             return (Success: true, returnedDto);
         }
@@ -51,12 +47,11 @@ public sealed class SortedNumbersApiClient(IHttpClientFactory httpClientFactory,
 
     public async Task<(bool Success, SortedNumbersDetailsDto? DetailsDto)> CreateAsync(SortedNumbersCreateDto createDto, CancellationToken cancellationToken)
     {
-        var http = httpClientFactory.CreateClient();
         HttpResponseMessage response;
 
         try
         {
-            response = await http.PostAsJsonAsync(CreateApiPath(), createDto, cancellationToken);
+            response = await httpClient.PostAsJsonAsync(CreateApiPath(), createDto, cancellationToken);
         }
         catch (Exception ex)
         {
@@ -94,12 +89,11 @@ public sealed class SortedNumbersApiClient(IHttpClientFactory httpClientFactory,
 
     public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken)
     {
-        var http = httpClientFactory.CreateClient();
         HttpResponseMessage response;
 
         try
         {
-            response = await http.DeleteAsync(CreateApiPathWithId(id), cancellationToken);
+            response = await httpClient.DeleteAsync(CreateApiPathWithId(id), cancellationToken);
         }
         catch (Exception ex)
         {

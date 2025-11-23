@@ -17,9 +17,13 @@ public class SortedNumbersController(ISortedNumbersService sortedNumbersService)
     [HttpGet]
     public async Task<IActionResult> IndexAsync(CancellationToken cancellationToken)
     {
-        var model = await _sortedNumbersService.GetAllAsync(cancellationToken);
+        var (wasSuccess, allSortedValues) = await _sortedNumbersService.GetAllAsync(cancellationToken);
 
-        return this.View(model);
+        return !wasSuccess
+            ? this.Problem(
+                detail: "Failed to retrieve sorted numbers.",
+                statusCode: StatusCodes.Status500InternalServerError)
+            : this.View(allSortedValues);
     }
 
     /// <summary>
@@ -29,7 +33,15 @@ public class SortedNumbersController(ISortedNumbersService sortedNumbersService)
     [HttpPost]
     public async Task<IActionResult> ExportToJsonAsync(CancellationToken cancellationToken)
     {
-        var allSortedValues = await _sortedNumbersService.GetAllAsync(cancellationToken);
+        var (wasSuccess, allSortedValues) = await _sortedNumbersService.GetAllAsync(cancellationToken);
+
+        if (!wasSuccess)
+        {
+            return this.Problem(
+                detail: "Failed to retrieve sorted numbers.",
+                statusCode: StatusCodes.Status500InternalServerError);
+        }
+
         var json = JsonSerializer.Serialize(allSortedValues);
 
         return this.File(Encoding.UTF8.GetBytes(json), "application/json", "sorted_numbers.json");
@@ -38,9 +50,13 @@ public class SortedNumbersController(ISortedNumbersService sortedNumbersService)
     [HttpGet]
     public async Task<IActionResult> DetailsAsync(int id, CancellationToken cancellationToken)
     {
-        var model = await _sortedNumbersService.GetByIdAsync(id, cancellationToken);
+        var (wasSuccess, viewModel) = await _sortedNumbersService.GetByIdAsync(id, cancellationToken);
 
-        return this.View(model);
+        return !wasSuccess
+            ? this.Problem(
+                detail: $"Failed to retrieve sorted numbers for Id: '{id}'.",
+                statusCode: StatusCodes.Status500InternalServerError)
+            : this.View(viewModel);
     }
 
     /// <summary>
@@ -55,18 +71,18 @@ public class SortedNumbersController(ISortedNumbersService sortedNumbersService)
     /// </summary>
     /// <param name="sortedNumbers">The SortedNumbersViewModel containing the data for the new item.</param>
     /// <returns>
-    /// If the model state is not valid, returns the Create view with the provided sortedNumbers.
+    /// If the allSortedValues state is not valid, returns the Create view with the provided sortedNumbers.
     /// If the item is created successfully, returns the Details view with the created sortedNumbers.
     /// </returns>
     [HttpPost]
-    public async Task<IActionResult> CreateAsync(SortedNumbersCreateViewModel sortedNumbers, CancellationToken cancellationToke)
+    public async Task<IActionResult> CreateAsync(SortedNumbersCreateViewModel sortedNumbers, CancellationToken cancellationToken)
     {
         if (!this.ModelState.IsValid)
         {
             return this.View(sortedNumbers);
         }
 
-        var (wasSuccess, createdModel) = await _sortedNumbersService.CreateAsync(sortedNumbers, cancellationToke);
+        var (wasSuccess, createdModel) = await _sortedNumbersService.CreateAsync(sortedNumbers, cancellationToken);
 
         if (!wasSuccess || createdModel is null)
         {
@@ -75,7 +91,9 @@ public class SortedNumbersController(ISortedNumbersService sortedNumbersService)
             return this.View(sortedNumbers);
         }
 
-        return this.RedirectToAction(nameof(DetailsAsync), new { id = createdModel.Id });
+        return this.RedirectToAction(
+            actionName: "Details",
+            routeValues: new { id = createdModel.Id });
     }
 
     /// <summary>
@@ -86,9 +104,13 @@ public class SortedNumbersController(ISortedNumbersService sortedNumbersService)
     [HttpGet]
     public async Task<IActionResult> DeleteAsync(int id, CancellationToken cancellationToken)
     {
-        var model = await _sortedNumbersService.GetByIdAsync(id, cancellationToken);
+        var (wasSuccess, viewModel) = await _sortedNumbersService.GetByIdAsync(id, cancellationToken);
 
-        return this.View(model);
+        return !wasSuccess
+            ? this.Problem(
+                detail: $"Failed to retrieve sorted numbers for Id: '{id}'.",
+                statusCode: StatusCodes.Status500InternalServerError)
+            : this.View(viewModel);
     }
 
     /// <summary>
