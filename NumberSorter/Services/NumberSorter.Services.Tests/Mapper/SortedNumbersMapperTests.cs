@@ -1,75 +1,59 @@
 ﻿using NumberSorter.Data.Models;
+using NumberSorter.Services.Dtos;
+using NumberSorter.Services.Helpers;
 using NumberSorter.Services.Mapper;
-using NumberSorter.Shared.Models;
 
 namespace NumberSorter.Services.Tests.Mapper;
 
 public class SortedNumbersMapperTests
 {
     [Fact]
-    public void ToViewModel_MapsEntityToViewModelCorrectly()
+    public void ToDto_ReturnsEntityMappedToDto()
     {
         // Arrange
-        var entity = new SortedNumbers(
-            id: 1,
-            sortedValues: [1, 2, 3],
-            initialValues: "3,2,1",
-            sortTime: TimeSpan.FromMilliseconds(50),
-            isAscending: true
-        );
-
-        // Act
-        var viewModel = entity.ToViewModel();
-
-        // Assert
-        Assert.Equal(entity.Id, viewModel.Id);
-        Assert.Equal(entity.SortedValues, viewModel.SortedValues);
-        Assert.Equal(entity.InitialValues, viewModel.InitialValues);
-        Assert.Equal(entity.SortTime, viewModel.SortTime);
-        Assert.Equal(entity.IsAscending, viewModel.IsAscending);
-        Assert.Equal("1, 2, 3", viewModel.SortedValuesString);
-    }
-
-    [Fact]
-    public void ToEntity_MapsViewModelToEntityCorrectly()
-    {
-        // Arrange
-        var viewModel = new SortedNumbersViewModel
+        var entity = new SortedNumbers()
         {
-            Id = 2,
-            SortedValues = [4, 5, 6],
-            InitialValues = "6,5,4",
-            SortTime = TimeSpan.FromMilliseconds(100),
-            IsAscending = false
+            SortedValues = [1, 2, 3],
+            InitialValues = "3,2,1",
+            SortTime = TimeSpan.FromMilliseconds(50),
+            IsAscending = true,
         };
 
         // Act
-        var entity = viewModel.ToEntity();
+        var dto = entity.ToDetailsDto();
 
         // Assert
-        Assert.Equal(viewModel.Id, entity.Id);
-        Assert.Equal(viewModel.SortedValues, entity.SortedValues);
-        Assert.Equal(viewModel.InitialValues, entity.InitialValues);
-        Assert.Equal(viewModel.SortTime, entity.SortTime);
-        Assert.Equal(viewModel.IsAscending, entity.IsAscending);
+        Assert.Equal(entity.Id, dto.Id);
+        Assert.Equal(entity.SortedValues, dto.SortedValues);
+
+        var dtoInitialValuesString = string.Join(',', dto.InitialValues);
+
+        Assert.Equal(entity.InitialValues, dtoInitialValuesString);
+        Assert.Equal(entity.SortTime, dto.SortTime);
+        Assert.Equal(entity.IsAscending, dto.IsAscending);
     }
 
     [Fact]
-    public void ToViewModel_WithEmptySortedValues_ProducesEmptyString()
+    public void ToEntity_ReturnsDtoMappedToEntity()
     {
         // Arrange
-        var entity = new SortedNumbers(
-            id: 3,
-            sortedValues: [],
-            initialValues: "",
-            sortTime: TimeSpan.Zero,
-            isAscending: true
-        );
+        var dto = new SortedNumbersCreateDto
+        {
+            InitialValues = [6, 5, 4],
+            IsAscending = false,
+        };
+        var (sortedValues, sortedTime) = SortedNumbersHelper.CalculateSortedList(dto.InitialValues, dto.IsAscending);
 
         // Act
-        var viewModel = entity.ToViewModel();
+        var entity = dto.ToEntity(sortedValues, sortedTime);
 
         // Assert
-        Assert.Empty(viewModel.SortedValuesString);
+        Assert.Equal(sortedValues, entity.SortedValues);
+
+        var entityInitialValues = entity.InitialValues.Split(',').Select(int.Parse).ToArray();
+
+        Assert.Equal(dto.InitialValues, entityInitialValues);
+        Assert.Equal(sortedTime, entity.SortTime);
+        Assert.Equal(dto.IsAscending, entity.IsAscending);
     }
 }

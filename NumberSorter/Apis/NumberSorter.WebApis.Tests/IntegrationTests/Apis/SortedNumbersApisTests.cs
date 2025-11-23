@@ -1,8 +1,9 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
-using NumberSorter.Shared.Models;
+using NumberSorter.Services.Dtos;
 using NumberSorter.WebApis.Apis;
 using NumberSorter.WebApis.Tests.IntegrationTests.TestHelpers;
+using NumberSorter.WebUI.Dtos;
 
 namespace NumberSorter.WebApis.Tests.IntegrationTests.Apis;
 
@@ -10,47 +11,77 @@ public class SortedNumbersApisTests(AspireAppFixture aspireAppFixture) : IClassF
 {
     private readonly HttpClient _httpClient = aspireAppFixture.GetHttpClient();
 
-    private static readonly SortedNumbersViewModel s_exampleSortedNumbersViewModel = new()
+    private const int ID = 1;
+    private static readonly int[] s_initialValues = [3, 2, 1];
+    private static readonly int[] s_sortedValues = [1, 2, 3];
+
+    private static readonly SortedNumbersCreateDto s_exampleSortedNumbersCreateDto = new()
     {
-        SortedValues = [1, 2, 3],
-        InitialValues = "3,2,1",
-        IsAscending = true
+        InitialValues = s_initialValues,
+        IsAscending = true,
+    };
+
+    private static readonly SortedNumbersDetailsDto s_exampleSortedNumbersDetailsDto = new()
+    {
+        Id = 1,
+        SortedValues = s_sortedValues,
+        InitialValues = s_initialValues,
+        IsAscending = true,
+        SortTime = TimeSpan.Zero,
     };
 
     [Fact]
     public async Task Create_ReturnsCreatedItem()
     {
         // Act
-        var response = await _httpClient.PostAsJsonAsync($"/{SortedNumbersApis.SortedNumbersApiPath}", s_exampleSortedNumbersViewModel);
+        var response = await _httpClient.PostAsJsonAsync($"/{SortedNumbersApis.SortedNumbersApiPath}", s_exampleSortedNumbersCreateDto);
 
         // Assert
         Assert.NotNull(response);
 
-        var created = await response.Content.ReadFromJsonAsync<SortedNumbersViewModel>();
+        var resultDto = await response.Content.ReadFromJsonAsync<SortedNumbersDetailsDto>();
 
-        AssertExpectedViewModel(created);
+        AssertExpectedDto(resultDto);
     }
 
     [Fact]
     public async Task GetById_ReturnsItem()
     {
         // Arrange
-        var post = await _httpClient.PostAsJsonAsync($"/{SortedNumbersApis.SortedNumbersApiPath}", s_exampleSortedNumbersViewModel);
-        var created = await post.Content.ReadFromJsonAsync<SortedNumbersViewModel>();
+        var post = await _httpClient.PostAsJsonAsync($"/{SortedNumbersApis.SortedNumbersApiPath}", s_exampleSortedNumbersCreateDto);
+        var created = await post.Content.ReadFromJsonAsync<SortedNumbersDetailsDto>();
 
         // Act
-        var result = await _httpClient.GetFromJsonAsync<SortedNumbersViewModel>($"/{SortedNumbersApis.SortedNumbersApiPath}/{created!.Id}");
+        var result = await _httpClient.GetFromJsonAsync<SortedNumbersDetailsDto>($"/{SortedNumbersApis.SortedNumbersApiPath}/{created!.Id}");
 
         // Assert
-        AssertExpectedViewModel(result);
+        AssertExpectedDto(result);
+    }
+
+    [Fact]
+    public async Task GetAll_ReturnsItems()
+    {
+        // Arrange
+        var post = await _httpClient.PostAsJsonAsync($"/{SortedNumbersApis.SortedNumbersApiPath}", s_exampleSortedNumbersCreateDto);
+        var created = await post.Content.ReadFromJsonAsync<SortedNumbersDetailsDto>();
+
+        // Act
+        var result = await _httpClient.GetFromJsonAsync<SortedNumbersDetailsDto[]>($"/{SortedNumbersApis.SortedNumbersApiPath}");
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.NotEmpty(result);
+        var foundCreatedBom = Assert.Single(result, x => x.Id == created.Id);
+
+        AssertExpectedDto(foundCreatedBom);
     }
 
     [Fact]
     public async Task Delete_RemovesItem()
     {
         // Arrange
-        var post = await _httpClient.PostAsJsonAsync($"/{SortedNumbersApis.SortedNumbersApiPath}", s_exampleSortedNumbersViewModel);
-        var created = await post.Content.ReadFromJsonAsync<SortedNumbersViewModel>();
+        var post = await _httpClient.PostAsJsonAsync($"/{SortedNumbersApis.SortedNumbersApiPath}", s_exampleSortedNumbersCreateDto);
+        var created = await post.Content.ReadFromJsonAsync<SortedNumbersDetailsDto>();
         var byIdUri = $"/{SortedNumbersApis.SortedNumbersApiPath}/{created!.Id}";
 
         // Act
@@ -66,34 +97,34 @@ public class SortedNumbersApisTests(AspireAppFixture aspireAppFixture) : IClassF
     public async Task CrudWorkflow_WorksEndToEnd()
     {
         // Get intial values
-        var getAllInitialResult = _httpClient.GetFromJsonAsAsyncEnumerable<SortedNumbersViewModel>($"/{SortedNumbersApis.SortedNumbersApiPath}");
+        var getAllInitialResult = _httpClient.GetFromJsonAsAsyncEnumerable<SortedNumbersDetailsDto>($"/{SortedNumbersApis.SortedNumbersApiPath}");
         var initialCount = await getAllInitialResult.CountAsync();
 
         Assert.NotNull(getAllInitialResult);
 
         // Test posting
-        var postResult = await _httpClient.PostAsJsonAsync($"/{SortedNumbersApis.SortedNumbersApiPath}", s_exampleSortedNumbersViewModel);
+        var postResult = await _httpClient.PostAsJsonAsync($"/{SortedNumbersApis.SortedNumbersApiPath}", s_exampleSortedNumbersCreateDto);
 
         Assert.NotNull(postResult);
 
-        var postResultViewModel = await postResult.Content.ReadFromJsonAsync<SortedNumbersViewModel>();
+        var postResultViewModel = await postResult.Content.ReadFromJsonAsync<SortedNumbersDetailsDto>();
 
-        AssertExpectedViewModel(postResultViewModel);
+        AssertExpectedDto(postResultViewModel);
 
         // Confirm post worked
-        var getByIdResultAfterPost = await _httpClient.GetFromJsonAsync<SortedNumbersViewModel>($"/{SortedNumbersApis.SortedNumbersApiPath}/{postResultViewModel.Id}");
+        var getByIdResultAfterPost = await _httpClient.GetFromJsonAsync<SortedNumbersDetailsDto>($"/{SortedNumbersApis.SortedNumbersApiPath}/{postResultViewModel.Id}");
 
-        AssertExpectedViewModel(getByIdResultAfterPost);
+        AssertExpectedDto(getByIdResultAfterPost);
 
         // Confirm Get all includes posted item
-        var getAllResultAfterPost = _httpClient.GetFromJsonAsAsyncEnumerable<SortedNumbersViewModel>($"/{SortedNumbersApis.SortedNumbersApiPath}");
+        var getAllResultAfterPost = _httpClient.GetFromJsonAsAsyncEnumerable<SortedNumbersDetailsDto>($"/{SortedNumbersApis.SortedNumbersApiPath}");
 
         Assert.NotNull(getAllResultAfterPost);
         Assert.Equal(initialCount + 1, await getAllResultAfterPost.CountAsync());
 
-        var foundPostedItem = await getAllResultAfterPost.FirstOrDefaultAsync(x => x is not null && x.Id == postResultViewModel.Id);
+        var foundPostedItem = await getAllResultAfterPost.FirstOrDefaultAsync(x => x.Id == postResultViewModel.Id);
 
-        AssertExpectedViewModel(foundPostedItem);
+        AssertExpectedDto(foundPostedItem);
 
         // Test deleting
         var deleteResult = await _httpClient.DeleteAsync($"/{SortedNumbersApis.SortedNumbersApiPath}/{postResultViewModel.Id}");
@@ -102,11 +133,10 @@ public class SortedNumbersApisTests(AspireAppFixture aspireAppFixture) : IClassF
         Assert.Equal(HttpStatusCode.NotFound, getByIdResultAfterDelete.StatusCode);
     }
 
-    private static void AssertExpectedViewModel(SortedNumbersViewModel? sortedNumbersViewModel)
+    private static void AssertExpectedDto(SortedNumbersDetailsDto sortedNumbersViewModel)
     {
-        Assert.NotNull(sortedNumbersViewModel);
-        Assert.Equal(s_exampleSortedNumbersViewModel.SortedValues, sortedNumbersViewModel.SortedValues);
-        Assert.Equal(s_exampleSortedNumbersViewModel.InitialValues, sortedNumbersViewModel.InitialValues);
-        Assert.Equal(s_exampleSortedNumbersViewModel.IsAscending, sortedNumbersViewModel.IsAscending);
+        Assert.Equal(s_exampleSortedNumbersDetailsDto.SortedValues, sortedNumbersViewModel.SortedValues);
+        Assert.Equal(s_exampleSortedNumbersDetailsDto.InitialValues, sortedNumbersViewModel.InitialValues);
+        Assert.Equal(s_exampleSortedNumbersDetailsDto.IsAscending, sortedNumbersViewModel.IsAscending);
     }
 }

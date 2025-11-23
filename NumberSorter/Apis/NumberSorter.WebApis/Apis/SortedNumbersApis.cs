@@ -1,5 +1,5 @@
-﻿using NumberSorter.Services.Interfaces;
-using NumberSorter.Shared.Models;
+﻿using NumberSorter.Services.Dtos;
+using NumberSorter.Services.Interfaces;
 
 namespace NumberSorter.WebApis.Apis;
 
@@ -11,21 +11,21 @@ internal static class SortedNumbersApis
     {
         var group = app.MapGroup($"/{SortedNumbersApiPath}");
 
-        group.MapGet("/", async (ISortedNumbersService sortedNumbersService)
-            => await sortedNumbersService.GetAllAsync());
+        group.MapGet("/", async Task<IResult> (ISortedNumbersService sortedNumbersService, CancellationToken cancellationToken)
+            => TypedResults.Ok(await sortedNumbersService.GetAllAsync(cancellationToken)));
 
-        group.MapGet("/{id}", async Task<IResult> (int id, ISortedNumbersService sortedNumbersService) =>
+        group.MapGet("/{id}", async Task<IResult> (int id, ISortedNumbersService sortedNumbersService, CancellationToken cancellationToken) =>
             {
-                var foundViewModel = await sortedNumbersService.GetById(id);
+                var foundViewModel = await sortedNumbersService.GetById(id, cancellationToken);
 
                 return foundViewModel == null ? TypedResults.NotFound() : TypedResults.Ok(foundViewModel);
             });
 
-        group.MapPost("/", async (SortedNumbersViewModel sortedNumbersViewModel, ISortedNumbersService sortedNumbersService)
-            => await sortedNumbersService.CreateAsync(sortedNumbersViewModel));
+        group.MapPost("/", async (SortedNumbersCreateDto sortedNumbersViewModel, ISortedNumbersService sortedNumbersService, CancellationToken cancellationToken)
+            => await sortedNumbersService.CreateAsync(sortedNumbersViewModel, cancellationToken));
 
-        group.MapDelete("/{id}", async (int id, ISortedNumbersService sortedNumbersService)
-            => await sortedNumbersService.DeleteAsync(id));
+        group.MapDelete("/{id}", async (int id, ISortedNumbersService sortedNumbersService, CancellationToken cancellationToken)
+            => await sortedNumbersService.DeleteAsync(id, cancellationToken));
 
         return app;
     }

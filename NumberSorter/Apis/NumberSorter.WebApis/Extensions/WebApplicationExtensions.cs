@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NumberSorter.Data;
+using NumberSorter.Data.Database;
 using NumberSorter.WebApis.Apis;
 
 namespace NumberSorter.WebApis.Extensions;

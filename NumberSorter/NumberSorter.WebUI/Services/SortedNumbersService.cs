@@ -54,7 +54,7 @@ public class SortedNumbersService(ISortedNumbersApiClient numberSorterApiClient)
     {
         var createDto = new SortedNumbersCreateDto()
         {
-            InitialValues = createViewModel.InitialValues.Split(','),
+            InitialValues = [.. createViewModel.InitialValues.Split(',').Select(int.Parse)],
             IsAscending = createViewModel.IsAscending,
         };
 

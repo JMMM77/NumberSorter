@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NumberSorter.Data.Database;
 using NumberSorter.Data.Interfaces;
 using NumberSorter.Data.Models;
 
@@ -14,34 +15,22 @@ internal class SortedNumbersRespository(NumberSorterDBContext numberSorterDBCont
     /// </summary>
     /// <param name="sortedNumbers">The SortedNumbers object to be added to the database.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    public async Task CreateAsync(SortedNumbers sortedNumbers) => await _dbSet.AddAsync(sortedNumbers);
+    public async Task CreateAsync(SortedNumbers sortedNumbers, CancellationToken cancellationToken)
+        => await _dbSet.AddAsync(sortedNumbers, cancellationToken);
 
     /// <summary>
     /// Asynchronously retrieves all records of sorted numbers from the database.
     /// </summary>
     /// <returns>A task representing the asynchronous operation that yields a list of SortedNumbers.</returns>
-    public async Task<List<SortedNumbers>> GetAllAsync() => await _dbSet.ToListAsync();
+    public async Task<List<SortedNumbers>> GetAllAsync(CancellationToken cancellationToken)
+        => await _dbSet.ToListAsync(cancellationToken);
 
     /// <summary>
     /// Asynchronously retrieves all records of sorted numbers from the database.
     /// </summary>
     /// <returns>A task representing the asynchronous operation that yields a list of SortedNumbers.</returns>
-    public async Task<SortedNumbers?> GetById(int sortedNumbersId)
-    {
-        var test = _dbSet.Where(x => x.Id == sortedNumbersId);
-
-        return await _dbSet.Where(x => x.Id == sortedNumbersId).FirstOrDefaultAsync();
-    }
-
-    /// <summary>
-    /// Updates a record representing sorted numbers in the database.
-    /// </summary>
-    /// <param name="sortedNumbers">The SortedNumbers object to be updated.</param>
-    public void Update(SortedNumbers sortedNumbers)
-    {
-        _dbSet.Attach(sortedNumbers);
-        _numberSorterDBContext.Entry(sortedNumbers).State = EntityState.Modified;
-    }
+    public async Task<SortedNumbers?> GetById(int sortedNumbersId, CancellationToken cancellationToken)
+        => await _dbSet.Where(x => x.Id == sortedNumbersId).FirstOrDefaultAsync(cancellationToken);
 
     /// <summary>
     /// Removes a record representing sorted numbers from the database.
@@ -53,5 +42,6 @@ internal class SortedNumbersRespository(NumberSorterDBContext numberSorterDBCont
     /// Saves changes made to the database context asynchronously.
     /// </summary>
     /// <returns>If the database has been successfully saved</returns>
-    public async Task<bool> SaveChangesAsync() => await _numberSorterDBContext.SaveChangesAsync() > 0;
+    public async Task<bool> SaveChangesAsync(CancellationToken cancellationToken)
+        => await _numberSorterDBContext.SaveChangesAsync(cancellationToken) > 0;
 }

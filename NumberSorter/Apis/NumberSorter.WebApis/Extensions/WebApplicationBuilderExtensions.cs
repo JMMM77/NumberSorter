@@ -1,7 +1,5 @@
-﻿using NumberSorter.AppHost.Constants;
-using NumberSorter.Data;
-using NumberSorter.Data.Configurations;
-using NumberSorter.Services.Configuration;
+﻿using NumberSorter.Data.Extensions;
+using NumberSorter.Services.Extensions;
 
 namespace NumberSorter.WebApis.Extensions;
 
@@ -13,11 +11,9 @@ internal static class WebApplicationBuilderExtensions
 
         builder.Services.AddOpenApi();
 
-        builder.AddSqlServerDbContext<NumberSorterDBContext>(AspireResourceNameConstants.SqlDatabaseName);
+        builder.AddDataDependencies();
 
-        builder.Services.AddNumberSorterData(builder.Configuration);
-
-        builder.Services.AddNumberSorterServices();
+        builder.AddServiceDependencies();
 
         return builder;
     }

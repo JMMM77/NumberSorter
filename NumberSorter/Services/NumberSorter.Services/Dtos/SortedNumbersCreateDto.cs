@@ -1,5 +1,4 @@
-﻿
-namespace NumberSorter.WebUI.Dtos;
+﻿namespace NumberSorter.Services.Dtos;
 
 public readonly record struct SortedNumbersCreateDto
 {
