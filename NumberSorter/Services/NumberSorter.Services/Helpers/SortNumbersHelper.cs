@@ -5,7 +5,7 @@ namespace NumberSorter.Services.Helpers;
 internal static class SortNumbersHelper
 {
 
-    /// <summary>
+    /// <summary>CalculateSortedList
     /// Sorts a list of numbers based on the sorting criteria provided in the dto.
     /// </summary>
     /// <param name="dto">The dto containing sorting criteria.</param>

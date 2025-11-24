@@ -9,8 +9,8 @@ public static class SortedResultsMapper
         => new()
         {
             Id = SortedResults.Id,
-            SortedValues = [.. SortedResults.SortedValues],
-            InitialValues = [.. SortedResults.InitialValues.Split(',').Select(int.Parse)],
+            SortedValues = SortedResults.SortedValues,
+            InitialValues = SortedResults.InitialValues,
             SortTime = SortedResults.SortTime,
             IsAscending = SortedResults.IsAscending,
         };
@@ -19,7 +19,7 @@ public static class SortedResultsMapper
         => new()
         {
             SortedValues = sortedValues,
-            InitialValues = string.Join(',', SortedResults.InitialValues),
+            InitialValues = SortedResults.InitialValues,
             SortTime = sortTime,
             IsAscending = SortedResults.IsAscending,
         };
