@@ -9,7 +9,7 @@ public static class IHostApplicationBuilderExtensions
 {
     public static IHostApplicationBuilder AddServiceDependencies(this IHostApplicationBuilder builder)
     {
-        builder.Services.AddScoped<ISortedNumbersService, SortedNumbersService>();
+        builder.Services.AddScoped<ISortedResultsService, SortedResultsService>();
 
         return builder;
     }

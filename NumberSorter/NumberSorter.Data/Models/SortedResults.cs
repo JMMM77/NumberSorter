@@ -1,6 +1,6 @@
 ﻿namespace NumberSorter.Data.Models;
 
-public class SortedNumbers
+public class SortedResults
 {
     public int Id { get; set; }
     public required IEnumerable<int> SortedValues { get; set; }

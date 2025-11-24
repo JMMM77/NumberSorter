@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace NumberSorter.WebUI.Models.SortedNumbers;
+namespace NumberSorter.WebUI.Models.SortedResults;
 
-public sealed class SortedNumbersCreateViewModel
+public sealed class SortedResultsCreateViewModel
 {
     [Required(ErrorMessage = "Please enter numbers separated by commas.")]
     [RegularExpression(@"^(\d+(\s*,\s*\d+)*)?$", ErrorMessage = "Invalid format. Please enter numbers separated by commas.")]

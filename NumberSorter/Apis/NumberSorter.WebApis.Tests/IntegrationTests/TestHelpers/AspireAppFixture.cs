@@ -1,6 +1,6 @@
 ﻿using Aspire.Hosting;
 using Aspire.Hosting.Testing;
-using NumberSorter.AppHost.Constants;
+using NumberSorter.Shared.Constants;
 
 namespace NumberSorter.WebApis.Tests.IntegrationTests.TestHelpers;
 

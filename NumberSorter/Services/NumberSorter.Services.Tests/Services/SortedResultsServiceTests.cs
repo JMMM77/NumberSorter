@@ -7,22 +7,22 @@ using NumberSorter.Services.Services;
 
 namespace NumberSorter.Services.Tests.Services;
 
-public class SortedNumbersServiceTests
+public class SortedResultsServiceTests
 {
-    private readonly ISortedNumbersRespository _sortedNumbersSub;
+    private readonly ISortedResultsRespository _sortedResultsRepositorySub;
 
-    public SortedNumbersServiceTests()
+    public SortedResultsServiceTests()
     {
-        _sortedNumbersSub = Substitute.For<ISortedNumbersRespository>();
+        _sortedResultsRepositorySub = Substitute.For<ISortedResultsRespository>();
     }
 
     [Fact]
-    public async Task GetAllAsync_ReturnsMappedViewModels()
+    public async Task GetAllAsync_ReturnsMappedDto()
     {
         // Arrange
         int[] initialVal = [3, 2, 1];
         int[] initialVal2 = [6, 5, 4];
-        var entities = new List<SortedNumbers>
+        var entities = new List<SortedResults>
         {
             new()
             {
@@ -40,7 +40,7 @@ public class SortedNumbersServiceTests
             },
         };
 
-        _sortedNumbersSub.GetAllAsync(Arg.Any<CancellationToken>()).Returns(entities);
+        _sortedResultsRepositorySub.GetAllAsync(Arg.Any<CancellationToken>()).Returns(entities);
 
         var service = this.CreateDefaultService();
 
@@ -54,11 +54,11 @@ public class SortedNumbersServiceTests
     }
 
     [Fact]
-    public async Task GetById_ReturnsMappedViewModel_WhenEntityExists()
+    public async Task GetById_ReturnsMappedDto_WhenEntityExists()
     {
         // Arrange
         int[] initialVal = [3, 2, 1];
-        var entity = new SortedNumbers()
+        var entity = new SortedResults()
         {
             SortedValues = [1, 2, 3],
             InitialValues = string.Join(',', initialVal),
@@ -66,7 +66,7 @@ public class SortedNumbersServiceTests
             IsAscending = true,
         };
 
-        _sortedNumbersSub.GetById(1, Arg.Any<CancellationToken>()).Returns(entity);
+        _sortedResultsRepositorySub.GetById(1, Arg.Any<CancellationToken>()).Returns(entity);
 
         var service = this.CreateDefaultService();
 
@@ -82,7 +82,7 @@ public class SortedNumbersServiceTests
     public async Task GetById_ReturnsNull_WhenEntityDoesNotExist()
     {
         // Arrange
-        _sortedNumbersSub.GetById(1, Arg.Any<CancellationToken>()).ReturnsNull();
+        _sortedResultsRepositorySub.GetById(1, Arg.Any<CancellationToken>()).ReturnsNull();
 
         var service = this.CreateDefaultService();
 
@@ -94,35 +94,35 @@ public class SortedNumbersServiceTests
     }
 
     [Fact]
-    public async Task CreateAsync_CreatesEntityAndReturnsViewModel()
+    public async Task CreateAsync_CreatesEntityAndReturnsDto()
     {
         // Arrange
         int[] initialValues = [3, 1, 2];
         var sortedValues = initialValues.Order().ToArray();
-        var viewModel = new SortedNumbersCreateDto { InitialValues = [3, 1, 2], IsAscending = true };
+        var createDto = new SortedResultsCreateDto { InitialValues = [3, 1, 2], IsAscending = true };
 
-        _sortedNumbersSub.CreateAsync(Arg.Any<SortedNumbers>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
-        _sortedNumbersSub.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(true);
+        _sortedResultsRepositorySub.CreateAsync(Arg.Any<SortedResults>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
+        _sortedResultsRepositorySub.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(true);
 
         var service = this.CreateDefaultService();
 
         // Act
-        var result = await service.CreateAsync(viewModel, cancellationToken: default);
+        var result = await service.CreateAsync(createDto, cancellationToken: default);
 
         // Assert
-        Assert.Equal(viewModel.InitialValues, result.InitialValues);
+        Assert.Equal(createDto.InitialValues, result.InitialValues);
         Assert.Equal(result.SortedValues, sortedValues);
-        Assert.Equal(viewModel.IsAscending, result.IsAscending);
+        Assert.Equal(createDto.IsAscending, result.IsAscending);
 
-        await _sortedNumbersSub.Received(1).CreateAsync(Arg.Any<SortedNumbers>(), Arg.Any<CancellationToken>());
-        await _sortedNumbersSub.Received(1).SaveChangesAsync(Arg.Any<CancellationToken>());
+        await _sortedResultsRepositorySub.Received(1).CreateAsync(Arg.Any<SortedResults>(), Arg.Any<CancellationToken>());
+        await _sortedResultsRepositorySub.Received(1).SaveChangesAsync(Arg.Any<CancellationToken>());
     }
 
     [Fact]
     public async Task DeleteAsync_ReturnsTrue_WhenEntityDoesNotExist()
     {
         // Arrange
-        _sortedNumbersSub.GetById(1, Arg.Any<CancellationToken>()).ReturnsNull();
+        _sortedResultsRepositorySub.GetById(1, Arg.Any<CancellationToken>()).ReturnsNull();
 
         var service = this.CreateDefaultService();
 
@@ -132,14 +132,14 @@ public class SortedNumbersServiceTests
         // Assert
         Assert.True(result);
 
-        _sortedNumbersSub.DidNotReceive().Delete(Arg.Any<SortedNumbers>());
+        _sortedResultsRepositorySub.DidNotReceive().Delete(Arg.Any<SortedResults>());
     }
 
     [Fact]
     public async Task DeleteAsync_DeletesEntityAndReturnsResult_WhenEntityExists()
     {
         // Arrange
-        var entity = new SortedNumbers()
+        var entity = new SortedResults()
         {
             SortedValues = [1, 2, 3],
             InitialValues = "3,2,1",
@@ -147,8 +147,8 @@ public class SortedNumbersServiceTests
             IsAscending = true,
         };
 
-        _sortedNumbersSub.GetById(1, Arg.Any<CancellationToken>()).Returns(entity);
-        _sortedNumbersSub.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(true);
+        _sortedResultsRepositorySub.GetById(1, Arg.Any<CancellationToken>()).Returns(entity);
+        _sortedResultsRepositorySub.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(true);
 
         var service = this.CreateDefaultService();
 
@@ -158,10 +158,10 @@ public class SortedNumbersServiceTests
         // Assert
         Assert.True(result);
 
-        _sortedNumbersSub.Received(1).Delete(entity);
-        await _sortedNumbersSub.Received(1).SaveChangesAsync(Arg.Any<CancellationToken>());
+        _sortedResultsRepositorySub.Received(1).Delete(entity);
+        await _sortedResultsRepositorySub.Received(1).SaveChangesAsync(Arg.Any<CancellationToken>());
     }
 
-    private SortedNumbersService CreateDefaultService()
-        => new(_sortedNumbersSub);
+    private SortedResultsService CreateDefaultService()
+        => new(_sortedResultsRepositorySub);
 }

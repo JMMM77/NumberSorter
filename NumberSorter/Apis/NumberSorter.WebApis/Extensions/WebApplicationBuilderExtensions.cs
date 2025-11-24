@@ -1,5 +1,6 @@
 ﻿using NumberSorter.Data.Extensions;
 using NumberSorter.Services.Extensions;
+using NumberSorter.Shared;
 
 namespace NumberSorter.WebApis.Extensions;
 

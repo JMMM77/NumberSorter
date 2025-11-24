@@ -1,4 +1,6 @@
-﻿namespace NumberSorter.WebUI.Extensions;
+﻿using NumberSorter.Shared;
+
+namespace NumberSorter.WebUI.Extensions;
 
 internal static class WebApplicationExtensions
 {

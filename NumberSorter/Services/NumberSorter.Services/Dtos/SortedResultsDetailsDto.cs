@@ -1,6 +1,6 @@
-﻿namespace NumberSorter.WebUI.Models.SortedNumbers;
+﻿namespace NumberSorter.Services.Dtos;
 
-public sealed class SortedNumbersDetailsViewModel
+public readonly record struct SortedResultsDetailsDto
 {
     public required int Id { get; init; }
 
