@@ -9,6 +9,17 @@ namespace NumberSorter.Services.Tests.Services;
 
 public class SortedResultsServiceTests
 {
+    private static readonly int[] s_exampleSortedValues = [3, 2, 1];
+    private static readonly int[] s_exampleInitialValues = [2, 1, 3];
+    private static readonly SortedResults s_exampleSortedResult =
+        new()
+        {
+            SortedValues = s_exampleSortedValues,
+            InitialValues = s_exampleInitialValues,
+            SortTime = TimeSpan.Zero,
+            IsAscending = false,
+        };
+
     private readonly ISortedResultsRespository _sortedResultsRepositorySub;
 
     public SortedResultsServiceTests()
@@ -20,24 +31,18 @@ public class SortedResultsServiceTests
     public async Task GetAllAsync_ReturnsMappedDto()
     {
         // Arrange
-        int[] initialVal = [3, 2, 1];
-        int[] initialVal2 = [6, 5, 4];
+        var exampleSortedResult2 = new SortedResults()
+        {
+            SortedValues = [4, 5, 6],
+            InitialValues = [6, 5, 4],
+            SortTime = TimeSpan.Zero,
+            IsAscending = true,
+        };
+
         var entities = new List<SortedResults>
         {
-            new()
-            {
-                SortedValues = [1,2,3],
-                InitialValues = string.Join(',', initialVal),
-                SortTime = TimeSpan.Zero,
-                IsAscending = true,
-            },
-            new()
-            {
-                SortedValues = [4,5,6],
-                InitialValues = string.Join(',', initialVal2),
-                SortTime = TimeSpan.Zero,
-                IsAscending = true,
-            },
+            s_exampleSortedResult,
+            exampleSortedResult2,
         };
 
         _sortedResultsRepositorySub.GetAllAsync(Arg.Any<CancellationToken>()).Returns(entities);
@@ -49,24 +54,15 @@ public class SortedResultsServiceTests
 
         // Assert
         Assert.Equal(2, result.Length);
-        Assert.True(result[0].InitialValues.SequenceEqual(initialVal));
-        Assert.True(result[1].InitialValues.SequenceEqual(initialVal2));
+        Assert.Equal(s_exampleSortedResult.InitialValues, result[0].InitialValues);
+        Assert.Equal(exampleSortedResult2.InitialValues, result[1].InitialValues);
     }
 
     [Fact]
     public async Task GetById_ReturnsMappedDto_WhenEntityExists()
     {
         // Arrange
-        int[] initialVal = [3, 2, 1];
-        var entity = new SortedResults()
-        {
-            SortedValues = [1, 2, 3],
-            InitialValues = string.Join(',', initialVal),
-            SortTime = TimeSpan.Zero,
-            IsAscending = true,
-        };
-
-        _sortedResultsRepositorySub.GetById(1, Arg.Any<CancellationToken>()).Returns(entity);
+        _sortedResultsRepositorySub.GetById(1, Arg.Any<CancellationToken>()).Returns(s_exampleSortedResult);
 
         var service = this.CreateDefaultService();
 
@@ -75,7 +71,7 @@ public class SortedResultsServiceTests
 
         // Assert
         Assert.NotNull(result);
-        Assert.True(result.Value.InitialValues.SequenceEqual(initialVal));
+        Assert.Equal(s_exampleSortedResult.InitialValues, result.Value.InitialValues);
     }
 
     [Fact]
@@ -97,9 +93,11 @@ public class SortedResultsServiceTests
     public async Task CreateAsync_CreatesEntityAndReturnsDto()
     {
         // Arrange
-        int[] initialValues = [3, 1, 2];
-        var sortedValues = initialValues.Order().ToArray();
-        var createDto = new SortedResultsCreateDto { InitialValues = [3, 1, 2], IsAscending = true };
+        var createDto = new SortedResultsCreateDto()
+        {
+            InitialValues = s_exampleInitialValues,
+            IsAscending = false,
+        };
 
         _sortedResultsRepositorySub.CreateAsync(Arg.Any<SortedResults>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
         _sortedResultsRepositorySub.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(true);
@@ -111,7 +109,7 @@ public class SortedResultsServiceTests
 
         // Assert
         Assert.Equal(createDto.InitialValues, result.InitialValues);
-        Assert.Equal(result.SortedValues, sortedValues);
+        Assert.Equal(s_exampleSortedValues, result.SortedValues);
         Assert.Equal(createDto.IsAscending, result.IsAscending);
 
         await _sortedResultsRepositorySub.Received(1).CreateAsync(Arg.Any<SortedResults>(), Arg.Any<CancellationToken>());
@@ -139,15 +137,7 @@ public class SortedResultsServiceTests
     public async Task DeleteAsync_DeletesEntityAndReturnsResult_WhenEntityExists()
     {
         // Arrange
-        var entity = new SortedResults()
-        {
-            SortedValues = [1, 2, 3],
-            InitialValues = "3,2,1",
-            SortTime = TimeSpan.Zero,
-            IsAscending = true,
-        };
-
-        _sortedResultsRepositorySub.GetById(1, Arg.Any<CancellationToken>()).Returns(entity);
+        _sortedResultsRepositorySub.GetById(1, Arg.Any<CancellationToken>()).Returns(s_exampleSortedResult);
         _sortedResultsRepositorySub.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(true);
 
         var service = this.CreateDefaultService();
@@ -158,7 +148,7 @@ public class SortedResultsServiceTests
         // Assert
         Assert.True(result);
 
-        _sortedResultsRepositorySub.Received(1).Delete(entity);
+        _sortedResultsRepositorySub.Received(1).Delete(s_exampleSortedResult);
         await _sortedResultsRepositorySub.Received(1).SaveChangesAsync(Arg.Any<CancellationToken>());
     }
 
