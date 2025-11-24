@@ -1,5 +1,4 @@
-﻿
-namespace NumberSorter.AppHost.Constants;
+﻿namespace NumberSorter.Shared.Constants;
 
 public static class AspireResourceNameConstants
 {

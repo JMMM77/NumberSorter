@@ -1,4 +1,5 @@
-﻿using NumberSorter.AppHost.Constants;
+﻿using NumberSorter.Shared;
+using NumberSorter.Shared.Constants;
 using NumberSorter.WebUI.Clients;
 using NumberSorter.WebUI.Interfaces;
 using NumberSorter.WebUI.Services;
@@ -15,10 +16,10 @@ internal static class WebApplicationBuilderExtensions
         builder.Services.AddControllersWithViews();
 
         // https://aspire.dev/fundamentals/service-discovery/#named-endpoints-using-configuration
-        builder.Services.AddHttpClient<ISortedNumbersApiClient, SortedNumbersApiClient>(
+        builder.Services.AddHttpClient<ISortedResultsApiClient, SortedResultsApiClient>(
             static client => client.BaseAddress = new($"https+http://{AspireResourceNameConstants.WebApiProjectName}"));
 
-        builder.Services.AddScoped<ISortedNumbersService, SortedNumbersService>();
+        builder.Services.AddScoped<ISortedResultsService, SortedResultsService>();
 
         return builder;
     }

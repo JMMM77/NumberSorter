@@ -5,5 +5,5 @@ namespace NumberSorter.Data.Database;
 
 public class NumberSorterDBContext(DbContextOptions<NumberSorterDBContext> options) : DbContext(options)
 {
-    public DbSet<SortedNumbers> SortedNumbers { get; set; }
+    public DbSet<SortedResults> SortedResults { get; set; }
 }

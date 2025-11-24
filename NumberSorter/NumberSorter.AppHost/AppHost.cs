@@ -1,4 +1,4 @@
-using NumberSorter.AppHost.Constants;
+using NumberSorter.Shared.Constants;
 
 var builder = DistributedApplication.CreateBuilder(args);
 

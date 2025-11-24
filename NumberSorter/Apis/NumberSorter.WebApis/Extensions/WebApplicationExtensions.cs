@@ -22,7 +22,7 @@ internal static class WebApplicationExtensions
         db.Database.EnsureCreated();
         db.Database.Migrate();
 
-        app.AddSortedNumbersApis();
+        app.AddSortedResultsApis();
 
         return app;
     }

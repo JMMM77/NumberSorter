@@ -2,7 +2,7 @@
 
 namespace NumberSorter.Services.Helpers;
 
-internal static class SortedNumbersHelper
+internal static class SortNumbersHelper
 {
 
     /// <summary>

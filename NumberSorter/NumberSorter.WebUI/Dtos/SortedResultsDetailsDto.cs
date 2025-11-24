@@ -1,6 +1,6 @@
 ﻿namespace NumberSorter.WebUI.Dtos;
 
-public readonly record struct SortedNumbersDetailsDto
+public readonly record struct SortedResultsDetailsDto
 {
     public required int Id { get; init; }
 

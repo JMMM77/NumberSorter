@@ -1,21 +1,21 @@
 ﻿using NumberSorter.WebUI.Dtos;
 using NumberSorter.WebUI.Interfaces;
-using NumberSorter.WebUI.Models.SortedNumbers;
+using NumberSorter.WebUI.Models.SortedResults;
 
 namespace NumberSorter.WebUI.Services;
 
-public class SortedNumbersService(ISortedNumbersApiClient numberSorterApiClient) : ISortedNumbersService
+public class SortedResultsService(ISortedResultsApiClient sortedResultsApiClient) : ISortedResultsService
 {
-    public async Task<(bool Success, SortedNumbersDetailsViewModel[]? AllDetailsDtos)> GetAllAsync(CancellationToken cancellationToken)
+    public async Task<(bool Success, SortedResultsDetailsViewModel[]? AllDetailsDtos)> GetAllAsync(CancellationToken cancellationToken)
     {
-        var (result, potentialDtos) = await numberSorterApiClient.GetAllAsync(cancellationToken);
+        var (result, potentialDtos) = await sortedResultsApiClient.GetAllAsync(cancellationToken);
 
         if (!result || potentialDtos is null)
         {
             return (result, null);
         }
 
-        var returnModels = potentialDtos.Select(x => new SortedNumbersDetailsViewModel()
+        var returnModels = potentialDtos.Select(x => new SortedResultsDetailsViewModel()
         {
             Id = x.Id,
             InitialValues = x.InitialValues,
@@ -27,9 +27,9 @@ public class SortedNumbersService(ISortedNumbersApiClient numberSorterApiClient)
         return (true, returnModels);
     }
 
-    public async Task<(bool Success, SortedNumbersDetailsViewModel? DetailsDto)> GetByIdAsync(int id, CancellationToken cancellationToken)
+    public async Task<(bool Success, SortedResultsDetailsViewModel? DetailsDto)> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
-        var (result, potentialDto) = await numberSorterApiClient.GetByIdAsync(id, cancellationToken);
+        var (result, potentialDto) = await sortedResultsApiClient.GetByIdAsync(id, cancellationToken);
 
         if (!result || !potentialDto.HasValue)
         {
@@ -38,7 +38,7 @@ public class SortedNumbersService(ISortedNumbersApiClient numberSorterApiClient)
 
         var foundDto = potentialDto.Value;
 
-        var returnModel = new SortedNumbersDetailsViewModel()
+        var returnModel = new SortedResultsDetailsViewModel()
         {
             Id = foundDto.Id,
             InitialValues = foundDto.InitialValues,
@@ -50,15 +50,15 @@ public class SortedNumbersService(ISortedNumbersApiClient numberSorterApiClient)
         return (true, returnModel);
     }
 
-    public async Task<(bool Success, SortedNumbersDetailsViewModel? DetailsDto)> CreateAsync(SortedNumbersCreateViewModel createViewModel, CancellationToken cancellationToken)
+    public async Task<(bool Success, SortedResultsDetailsViewModel? DetailsDto)> CreateAsync(SortedResultsCreateViewModel createViewModel, CancellationToken cancellationToken)
     {
-        var createDto = new SortedNumbersCreateDto()
+        var createDto = new SortedResultsCreateDto()
         {
             InitialValues = [.. createViewModel.InitialValues.Split(',').Select(int.Parse)],
             IsAscending = createViewModel.IsAscending,
         };
 
-        var (result, potentialDto) = await numberSorterApiClient.CreateAsync(createDto, cancellationToken);
+        var (result, potentialDto) = await sortedResultsApiClient.CreateAsync(createDto, cancellationToken);
 
         if (!result || !potentialDto.HasValue)
         {
@@ -67,7 +67,7 @@ public class SortedNumbersService(ISortedNumbersApiClient numberSorterApiClient)
 
         var foundDto = potentialDto.Value;
 
-        var returnModel = new SortedNumbersDetailsViewModel()
+        var returnModel = new SortedResultsDetailsViewModel()
         {
             Id = foundDto.Id,
             InitialValues = foundDto.InitialValues,
@@ -80,5 +80,5 @@ public class SortedNumbersService(ISortedNumbersApiClient numberSorterApiClient)
     }
 
     public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken)
-        => await numberSorterApiClient.DeleteAsync(id, cancellationToken);
+        => await sortedResultsApiClient.DeleteAsync(id, cancellationToken);
 }

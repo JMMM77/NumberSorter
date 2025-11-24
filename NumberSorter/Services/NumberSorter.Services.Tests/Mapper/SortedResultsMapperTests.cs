@@ -1,17 +1,17 @@
 ﻿using NumberSorter.Data.Models;
 using NumberSorter.Services.Dtos;
 using NumberSorter.Services.Helpers;
-using NumberSorter.Services.Mapper;
+using NumberSorter.Services.Mappers;
 
 namespace NumberSorter.Services.Tests.Mapper;
 
-public class SortedNumbersMapperTests
+public class SortedResultsMapperTests
 {
     [Fact]
     public void ToDto_ReturnsEntityMappedToDto()
     {
         // Arrange
-        var entity = new SortedNumbers()
+        var entity = new SortedResults()
         {
             SortedValues = [1, 2, 3],
             InitialValues = "3,2,1",
@@ -37,12 +37,12 @@ public class SortedNumbersMapperTests
     public void ToEntity_ReturnsDtoMappedToEntity()
     {
         // Arrange
-        var dto = new SortedNumbersCreateDto
+        var dto = new SortedResultsCreateDto
         {
             InitialValues = [6, 5, 4],
             IsAscending = false,
         };
-        var (sortedValues, sortedTime) = SortedNumbersHelper.CalculateSortedList(dto.InitialValues, dto.IsAscending);
+        var (sortedValues, sortedTime) = SortNumbersHelper.CalculateSortedList(dto.InitialValues, dto.IsAscending);
 
         // Act
         var entity = dto.ToEntity(sortedValues, sortedTime);

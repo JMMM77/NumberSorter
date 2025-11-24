@@ -1,13 +1,13 @@
-﻿@using NumberSorter.WebUI.Models.SortedNumbers
+﻿@using NumberSorter.WebUI.Models.SortedResults
 
-@model SortedNumbersDetailsViewModel
+@model SortedResultsDetailsViewModel;
 
 @{
-    ViewData["Title"] = "Details";
+   ViewData["Title"] = "Delete Sorted Results";
 }
-
-<h1>Details for sorted number list</h1>
+<h1>Delete @ViewData["Title"]</h1>
 <hr />
+<h2>Are you sure you want to delete these sorted numbers?</h2>
 
 <dl class="row">
     <dt class="col-sm-2">ID</dt>
@@ -26,7 +26,8 @@
     <dd class="col-sm-10">@Model.SortTime</dd>
 </dl>
 
-<div>
-    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
-    <a asp-action="Index" asp-controller="SortedNumbers" class="btn btn-secondary">Back to List</a>
-</div>
+<form asp-action="Delete" asp-controller="SortedResults" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" value="Delete" class="btn btn-danger">Delete</button>
+    <a asp-action="Index" asp-controller="SortedResults" class="btn btn-secondary">Cancel</a>
+</form>

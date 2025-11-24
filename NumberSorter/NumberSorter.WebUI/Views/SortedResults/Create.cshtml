@@ -1,6 +1,6 @@
-﻿@using NumberSorter.WebUI.Models.SortedNumbers
+﻿@using NumberSorter.WebUI.Models.SortedResults
 
-@model SortedNumbersCreateViewModel;
+@model SortedResultsCreateViewModel;
 
 @{
     ViewData["Title"] = "Create New List of Sorted Numbers";
@@ -8,7 +8,7 @@
 
 <h1>@ViewData["Title"]</h1>
 <hr />
-<form asp-controller="SortedNumbers" asp-action="Create" method="post" class="row">
+<form asp-controller="SortedResults" asp-action="Create" method="post" class="row">
     <div class="col-md-6">
         <label asp-for="InitialValues" class="control-label">Enter numbers (comma-separated):</label>
         <input asp-for="InitialValues" class="form-control" />
@@ -23,7 +23,7 @@
     </div>
     <div class="col-md-12 my-2">
         <button type="submit" class="btn btn-primary">Sort</button>
-        <a asp-action="Index" asp-controller="SortedNumbers" class="btn btn-secondary">Back to List</a>
+        <a asp-action="Index" asp-controller="SortedResults" class="btn btn-secondary">Back to List</a>
     </div>
     
 </form>

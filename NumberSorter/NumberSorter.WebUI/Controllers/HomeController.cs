@@ -1,6 +1,6 @@
+using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using NumberSorter.WebUI.Models;
-using System.Diagnostics;
 
 namespace NumberSorter.WebUI.Controllers;
 
