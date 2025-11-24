@@ -17,7 +17,7 @@ internal class SortedResultsRespository(NumberSorterDBContext numberSorterDBCont
     public async Task<List<SortedResults>> GetAllAsync(CancellationToken cancellationToken)
         => await _dbSet.ToListAsync(cancellationToken);
 
-    public async Task<SortedResults?> GetById(int id, CancellationToken cancellationToken)
+    public async Task<SortedResults?> GetByIdAsync(int id, CancellationToken cancellationToken)
         => await _dbSet.Where(x => x.Id == id).FirstOrDefaultAsync(cancellationToken);
 
     public void Delete(SortedResults sortedResults) => _dbSet.Remove(sortedResults);
