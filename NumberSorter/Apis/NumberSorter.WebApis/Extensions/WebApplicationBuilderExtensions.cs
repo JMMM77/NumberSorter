@@ -12,9 +12,14 @@ internal static class WebApplicationBuilderExtensions
 
         builder.Services.AddOpenApi();
 
-        builder.AddDataDependencies();
+        builder.Services.AddOutputCache(options =>
+            {
+                options.AddBasePolicy(builder => builder.Expire(TimeSpan.FromSeconds(10)));
+            });
 
-        builder.AddServiceDependencies();
+        builder
+            .AddDataDependencies()
+            .AddServiceDependencies();
 
         return builder;
     }

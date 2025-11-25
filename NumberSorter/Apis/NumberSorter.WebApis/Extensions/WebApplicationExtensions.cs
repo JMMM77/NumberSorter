@@ -15,6 +15,7 @@ internal static class WebApplicationExtensions
         }
 
         app.UseHttpsRedirection();
+        app.UseOutputCache();
 
         using var scope = app.Services.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<NumberSorterDBContext>();
