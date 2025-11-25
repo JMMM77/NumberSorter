@@ -1,8 +1,10 @@
 ﻿using System.Text.Json;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Options;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 using NumberSorter.Services.Dtos;
+using NumberSorter.Services.Options;
 using NumberSorter.Services.Services;
 
 namespace NumberSorter.Services.Tests.Services;
@@ -38,10 +40,13 @@ public class SortedResultsCachingServiceTests
         };
 
     private readonly IDistributedCache _distributedCache;
+    private readonly IOptions<DistributedCachingOptions> _distributedCacheOptions;
 
     public SortedResultsCachingServiceTests()
     {
         _distributedCache = Substitute.For<IDistributedCache>();
+        _distributedCacheOptions = Substitute.For<IOptions<DistributedCachingOptions>>();
+        _distributedCacheOptions.Value.Returns(new DistributedCachingOptions());
     }
 
     [Fact]
@@ -148,5 +153,5 @@ public class SortedResultsCachingServiceTests
     }
 
     private SortedResultsCachingService CreateDefaultService()
-        => new(_distributedCache);
+        => new(_distributedCache, _distributedCacheOptions);
 }

@@ -1,15 +1,18 @@
 ﻿using System.Text.Json;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Options;
 using NumberSorter.Services.Dtos;
 using NumberSorter.Services.Interfaces;
+using NumberSorter.Services.Options;
 
 namespace NumberSorter.Services.Services;
 
 /// <inheritdoc/>
-internal class SortedResultsCachingService(IDistributedCache distributedCache) : ISortedResultsCachingService
+internal class SortedResultsCachingService(IDistributedCache distributedCache, IOptions<DistributedCachingOptions> options) : ISortedResultsCachingService
 {
     private const string CACHE_PREFIX = "sortedResults";
-    private static readonly TimeSpan s_expirationRelativeToNow = TimeSpan.FromMinutes(1);
+
+    private readonly DistributedCachingOptions _distributedCachingOptions = options.Value;
 
     public async Task<(bool Success, SortedResultsDetailsDto? foundDto)> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
@@ -41,7 +44,7 @@ internal class SortedResultsCachingService(IDistributedCache distributedCache) :
             JsonSerializer.Serialize(dto),
             new DistributedCacheEntryOptions
             {
-                AbsoluteExpirationRelativeToNow = s_expirationRelativeToNow
+                AbsoluteExpirationRelativeToNow = _distributedCachingOptions.Expiration,
             },
             cancellationToken);
 
