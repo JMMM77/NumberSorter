@@ -12,7 +12,8 @@ internal static class SortedResultsApis
         var group = app.MapGroup($"/{SortedResultsApiPath}");
 
         group.MapGet("/", async Task<IResult> (ISortedResultsService sortedResultsService, CancellationToken cancellationToken)
-            => TypedResults.Ok(await sortedResultsService.GetAllAsync(cancellationToken)));
+            => TypedResults.Ok(await sortedResultsService.GetAllAsync(cancellationToken)))
+            .CacheOutput();
 
         group.MapGet("/{id}", async Task<IResult> (int id, ISortedResultsService sortedResultsService, CancellationToken cancellationToken) =>
             {

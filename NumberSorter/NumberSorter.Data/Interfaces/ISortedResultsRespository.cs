@@ -24,7 +24,7 @@ public interface ISortedResultsRespository
     /// <returns>
     /// A <see cref="Task{TResult}"/> containing the <see cref="SortedResults"/> if found; otherwise, <c>null</c>.
     /// </returns>
-    Task<SortedResults?> GetById(int id, CancellationToken cancellationToken);
+    Task<SortedResults?> GetByIdAsync(int id, CancellationToken cancellationToken);
 
     /// <summary>
     /// Removes a sorted result record from the database.

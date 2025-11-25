@@ -10,7 +10,6 @@ public class SortedResultsApisTests(AspireAppFixture aspireAppFixture) : IClassF
 {
     private readonly HttpClient _httpClient = aspireAppFixture.GetHttpClient();
 
-    private const int ID = 1;
     private static readonly int[] s_initialValues = [3, 2, 1];
     private static readonly int[] s_sortedValues = [1, 2, 3];
 
