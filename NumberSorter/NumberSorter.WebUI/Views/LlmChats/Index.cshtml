@@ -1,0 +1,28 @@
+﻿@using NumberSorter.WebUI.Models.LlmChats
+
+@model LlmChatsIndexViewModel;
+
+@{
+    ViewData["Title"] = "Chat with LLM";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+<form asp-controller="LlmChats" asp-action="Index" method="post" class="row">
+    <div class="col-md-12">
+        <label asp-for="Prompt" class="control-label">Enter Prompt:</label>
+        <input asp-for="Prompt" class="form-control" />
+        <span asp-validation-for="Prompt" class="text-danger"></span>
+    </div>
+    <div class="col-md-12 my-2">
+        <button type="submit" class="btn btn-primary">Sort</button>
+    </div>
+
+</form>
+
+@if (!string.IsNullOrWhiteSpace(Model.Response))
+{
+    <h2>Generated Response:</h2>
+    <p>@Model.Response</p>
+}

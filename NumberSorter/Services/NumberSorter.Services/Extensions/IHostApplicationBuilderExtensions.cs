@@ -14,6 +14,11 @@ public static class IHostApplicationBuilderExtensions
     {
         builder.ConfigureDistributedCaching();
 
+        builder.AddOllamaApiClient(AspireResourceNameConstants.OllamaLlmConnectionName,
+            settings => settings.SelectedModel = AspireResourceNameConstants.OllamaLlmName)
+            .AddChatClient();
+
+        builder.Services.AddScoped<ILlmChatService, LlmChatService>();
         builder.Services.AddScoped<ISortedResultsService, SortedResultsService>();
 
         return builder;
