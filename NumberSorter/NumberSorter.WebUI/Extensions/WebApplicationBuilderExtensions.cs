@@ -17,10 +17,17 @@ internal static class WebApplicationBuilderExtensions
 
         // https://aspire.dev/fundamentals/service-discovery/#named-endpoints-using-configuration
         builder.Services.AddHttpClient<ISortedResultsApiClient, SortedResultsApiClient>(
-            static client => client.BaseAddress = new($"https+http://{AspireResourceNameConstants.WebApiProjectName}"));
+            static client => client.BaseAddress = new(GetWebApiBaseAddress()));
+
+        builder.Services.AddHttpClient<ILlmChatApiClient, LlmChatApiClient>(
+            static client => client.BaseAddress = new(GetWebApiBaseAddress()));
 
         builder.Services.AddScoped<ISortedResultsService, SortedResultsService>();
+        builder.Services.AddScoped<ILlmChatService, LlmChatService>();
 
         return builder;
     }
+
+    private static string GetWebApiBaseAddress()
+        => $"https+http://{AspireResourceNameConstants.WebApiProjectName}";
 }

@@ -6,6 +6,10 @@ public static class AspireResourceNameConstants
 
     public const string SqlDatabaseName = $"{APP_SHORT_NAME}-sql-database";
     public const string CacheName = $"{APP_SHORT_NAME}-cache";
+    public const string OllamaServiceName = $"{APP_SHORT_NAME}-ollama";
+    public const string OllamaLlmConnectionName = $"gemma3";
+    public const string OllamaLlmName = $"gemma3:4b";
+    public const string McpProjectName = $"{APP_SHORT_NAME}-mcp";
     public const string WebUiProjectName = $"{APP_SHORT_NAME}-webui";
     public const string WebApiProjectName = $"{APP_SHORT_NAME}-webapis";
 }

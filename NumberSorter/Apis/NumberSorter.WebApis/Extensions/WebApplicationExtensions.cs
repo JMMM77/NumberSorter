@@ -31,7 +31,9 @@ internal static class WebApplicationExtensions
         db.Database.EnsureCreated();
         db.Database.Migrate();
 
-        app.AddSortedResultsApis();
+        app
+            .AddLlmChatApis()
+            .AddSortedResultsApis();
 
         return app;
     }
