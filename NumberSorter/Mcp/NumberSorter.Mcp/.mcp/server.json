@@ -1,0 +1,11 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json",
+  "description": "MCP server for interacting with the NumberSorter resources.",
+  "name": "io.github.JMMM77/NumberSorter",
+  "version": "0.0.1",
+  "packages": [],
+  "repository": {
+    "url": "https://github.com/JMMM77/NumberSorter",
+    "source": "github"
+  }
+}

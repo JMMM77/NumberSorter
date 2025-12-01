@@ -12,10 +12,13 @@
 	<ItemGroup>
 		<PackageReference Include="Aspire.Hosting.Redis" Version="13.0.0" />
 		<PackageReference Include="Aspire.Hosting.SqlServer" Version="13.0.0" />
+		<PackageReference Include="CommunityToolkit.Aspire.Hosting.McpInspector" Version="13.0.0" />
+		<PackageReference Include="CommunityToolkit.Aspire.Hosting.Ollama" Version="13.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Apis\NumberSorter.WebApis\NumberSorter.WebApis.csproj" />
+		<ProjectReference Include="..\Mcp\NumberSorter.Mcp\NumberSorter.Mcp.csproj" />
 		<ProjectReference Include="..\NumberSorter.WebUI\NumberSorter.WebUI.csproj" />
 		<ProjectReference Include="..\NumberSorter.Shared\NumberSorter.Shared.csproj" IsAspireProjectResource="false" />
 	</ItemGroup>
