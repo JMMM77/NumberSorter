@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NumberSorter.Shared\NumberSorter.Shared.csproj" />
+    <ProjectReference Include="..\..\NumberSorter.Shared\NumberSorter.Shared.csproj" />
   </ItemGroup>
 
 </Project>
