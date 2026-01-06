@@ -16,12 +16,12 @@ var webApi = builder.AddProject<Projects.NumberSorter_WebApis>(AspireResourceNam
     .WithReference(cache)
     .WaitFor(cache);
 
-builder.AddProject<Projects.NumberSorter_WebUI>(AspireResourceNameConstants.WebUiProjectName)
-    .WithReference(webApi)
-    .WaitFor(webApi);
-
 builder.AddJavaScriptApp(name: "AngularFrontEnd", appDirectory: "../WebUI/NumberSorter.WebUI.Angular", runScriptName: "aspire")
     .WithHttpEndpoint(port: 4200, env: "PORT")
     .WithReference(webApi);
+
+builder.AddProject<Projects.NumberSorter_WebUI>(AspireResourceNameConstants.WebUiProjectName)
+    .WithReference(webApi)
+    .WaitFor(webApi);
 
 builder.Build().Run();
