@@ -8,36 +8,50 @@ namespace NumberSorter.WebApis.Extensions;
 
 internal static class WebApplicationBuilderExtensions
 {
-    public static WebApplicationBuilder ConfigureBuilder(this WebApplicationBuilder builder)
+    extension(WebApplicationBuilder builder)
     {
-        builder.AddServiceDefaults();
-
-        builder.Services.AddOpenApi();
-
-        builder
-            .ConfigureOutputCaching()
-            .AddDataDependencies()
-            .AddServiceDependencies();
-
-        return builder;
-    }
-
-    private static WebApplicationBuilder ConfigureOutputCaching(this WebApplicationBuilder builder)
-    {
-        builder.Services.Configure<OutputCachingOptions>(
-            builder.Configuration.GetSection(OutputCachingOptions.OutputCachingSettings));
-
-        var options = builder.Services.BuildServiceProvider()
-            .GetRequiredService<IOptions<OutputCachingOptions>>().Value;
-
-        if (options.Enabled)
+        public WebApplicationBuilder ConfigureBuilder()
         {
-            builder.Services.AddOutputCache(options =>
+            builder.AddServiceDefaults();
+
+            builder.Services.AddOpenApi();
+
+            builder
+                .ConfigureOutputCaching()
+                .AddDataDependencies()
+                .AddServiceDependencies();
+
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
             {
-                options.AddBasePolicy(builder => builder.Expire(TimeSpan.FromSeconds(10)));
-            });
+                builder.Services.AddCors(options =>
+                {
+                    options.AddPolicy("AllowAngular", policy =>
+                        policy.WithOrigins("http://localhost:4200")
+                            .AllowAnyMethod()
+                            .AllowAnyHeader());
+                });
+            }
+
+            return builder;
         }
 
-        return builder;
+        private WebApplicationBuilder ConfigureOutputCaching()
+        {
+            builder.Services.Configure<OutputCachingOptions>(
+                builder.Configuration.GetSection(OutputCachingOptions.OutputCachingSettings));
+
+            var options = builder.Services.BuildServiceProvider()
+                .GetRequiredService<IOptions<OutputCachingOptions>>().Value;
+
+            if (options.Enabled)
+            {
+                builder.Services.AddOutputCache(options =>
+                {
+                    options.AddBasePolicy(builder => builder.Expire(TimeSpan.FromSeconds(10)));
+                });
+            }
+
+            return builder;
+        }
     }
 }

@@ -17,7 +17,8 @@ internal static class WebApplicationExtensions
         }
 
         app.UseHttpsRedirection();
-
+        app.UseCors("AllowAngular");
+        
         var enableOutputCaching = app.Services.GetRequiredService<IOptions<OutputCachingOptions>>().Value.Enabled;
 
         if (enableOutputCaching)

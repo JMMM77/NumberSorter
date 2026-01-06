@@ -10,13 +10,14 @@
   </PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Aspire.Hosting.JavaScript" Version="13.1.0" />
 		<PackageReference Include="Aspire.Hosting.Redis" Version="13.0.0" />
 		<PackageReference Include="Aspire.Hosting.SqlServer" Version="13.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Apis\NumberSorter.WebApis\NumberSorter.WebApis.csproj" />
-		<ProjectReference Include="..\NumberSorter.WebUI\NumberSorter.WebUI.csproj" />
+		<ProjectReference Include="..\WebUI\NumberSorter.WebUI\NumberSorter.WebUI.csproj" />
 		<ProjectReference Include="..\NumberSorter.Shared\NumberSorter.Shared.csproj" IsAspireProjectResource="false" />
 	</ItemGroup>
 	

@@ -1,0 +1,27 @@
+<h2>Create Sort</h2>
+
+<input
+  [(ngModel)]="inputValues"
+  placeholder="e.g. 5,3,9,1"
+/>
+
+<label>
+  <input type="checkbox" [(ngModel)]="isAscending" />
+  Ascending
+</label>
+
+<button (click)="create()">Sort</button>
+
+<hr />
+
+<h2>Results</h2>
+
+<ul>
+  <li *ngFor="let r of results">
+    <strong>ID:</strong> {{ r.id }} <br />
+    <strong>Initial:</strong> {{ r.initialValues.join(', ') }} <br />
+    <strong>Sorted:</strong> {{ r.sortedValues.join(', ') }} <br />
+    <strong>Time:</strong> {{ r.sortTime }} <br />
+    <button (click)="delete(r.id)">Delete</button>
+  </li>
+</ul>

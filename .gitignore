@@ -401,3 +401,5 @@ FodyWeavers.xsd
 web.config
 
 .aspire/
+
+.idea/
